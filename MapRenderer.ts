@@ -20,6 +20,20 @@ export class MapRenderer {
     this.ctx = this.canvas.getContext('2d')!;
   }
 
+  private getColorFromTextureId(textureId: number): string {
+    const colors = [
+      '#8B4513', // Brown
+      '#696969', // Gray
+      '#2F4F4F', // Dark Slate Gray
+      '#800000', // Maroon
+      '#556B2F', // Dark Olive Green
+      '#483D8B', // Dark Slate Blue
+      '#8B0000', // Dark Red
+      '#2E8B57', // Sea Green
+    ];
+    return colors[textureId % colors.length];
+  }
+
   drawMap(camera: THREE.Camera): void {
     // Clear canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -41,8 +55,8 @@ export class MapRenderer {
         const x2 = centerX + (v2.x - camera.position.x) * scale;
         const y2 = centerY + (v2.y - camera.position.z) * scale;
         
-        // Set color based on portal status
-        this.ctx.strokeStyle = (wall.bottomHeight < 0 || wall.topHeight < 0) ? 'red' : 'gray';
+        // Set color based on texture ID
+        this.ctx.strokeStyle = this.getColorFromTextureId(wall.textureId);
         this.ctx.lineWidth = 2;
         
         this.ctx.beginPath();

@@ -47,21 +47,21 @@ export class LevelRenderer {
     const group = new THREE.Group();
 
     // Draw floor
-    const floorGeometry = new THREE.ShapeGeometry(this.createShape(sector.vertices));
+    const { shape: floorShape, center: floorCenter } = this.createCenteredShape(sector.vertices);
+    const floorGeometry = new THREE.ShapeGeometry(floorShape);
     const floorMaterial = this.getMaterial(sector.floorTextureId, sector.brightness);
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.rotation.x = -Math.PI / 2;
-    floor.position.y = sector.floorHeight;
-    floor.position.x = 0;
-    floor.position.z = 0;
+    floor.position.set(floorCenter.x, sector.floorHeight, floorCenter.y);
     group.add(floor);
 
     // Draw ceiling
-    const ceilingGeometry = new THREE.ShapeGeometry(this.createShape(sector.vertices));
+    const { shape: ceilingShape, center: ceilingCenter } = this.createCenteredShape(sector.vertices);
+    const ceilingGeometry = new THREE.ShapeGeometry(ceilingShape);
     const ceilingMaterial = this.getMaterial(sector.ceilingTextureId, sector.brightness);
     const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
     ceiling.rotation.x = Math.PI / 2;
-    ceiling.position.y = sector.ceilingHeight;
+    ceiling.position.set(ceilingCenter.x, sector.ceilingHeight, ceilingCenter.y);
     group.add(ceiling);
 
     // Draw walls
@@ -123,6 +123,27 @@ export class LevelRenderer {
     }
     shape.closePath();
     return shape;
+  }
+
+  private getCenterPoint(vertices: { x: number; y: number }[]): { x: number; y: number } {
+    const centerX = vertices.reduce((sum, v) => sum + v.x, 0) / vertices.length;
+    const centerY = vertices.reduce((sum, v) => sum + v.y, 0) / vertices.length;
+    return { x: centerX, y: centerY };
+  }
+
+  private createCenteredShape(vertices: { x: number; y: number }[]): { shape: THREE.Shape; center: { x: number; y: number } } {
+    const center = this.getCenterPoint(vertices);
+    const shape = new THREE.Shape();
+    
+    // Create shape relative to center
+    const relativeVertices = vertices.map(v => ({ x: v.x - center.x, y: v.y - center.y }));
+    shape.moveTo(relativeVertices[0].x, relativeVertices[0].y);
+    for (let i = 1; i < relativeVertices.length; i++) {
+      shape.lineTo(relativeVertices[i].x, relativeVertices[i].y);
+    }
+    shape.closePath();
+    
+    return { shape, center };
   }
 
   private createWallGeometry(
