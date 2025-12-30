@@ -30,7 +30,8 @@ export class LevelRenderer {
     if (!this.materials.has(key)) {
       const color = this.getColorFromTextureId(textureId);
       const material = new THREE.MeshLambertMaterial({ 
-        color: new THREE.Color(color).multiplyScalar(brightness)
+        color: new THREE.Color(color).multiplyScalar(brightness),
+        side: THREE.DoubleSide
       });
       this.materials.set(key, material);
     }
@@ -137,8 +138,8 @@ export class LevelRenderer {
     const centerZ = (v1.y + v2.y) / 2;
     const centerY = (bottomY + topY) / 2;
     
-    // Calculate rotation angle
-    const angle = Math.atan2(v2.y - v1.y, v2.x - v1.x);
+    // Calculate rotation angle (flip for inward facing)
+    const angle = Math.atan2(v2.y - v1.y, v2.x - v1.x) + Math.PI;
     
     // Apply transformations
     geometry.rotateY(angle);
