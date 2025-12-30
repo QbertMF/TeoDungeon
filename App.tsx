@@ -45,6 +45,7 @@ export default function App() {
     camera.position.set(0, 1.5, 0);
     const direction = new THREE.Vector3(0, 0, -1);
     const moveSpeed = 0.1;
+    const rotateSpeed = 0.05;
 
     // Light
     const light = new THREE.DirectionalLight(0xffffff, 2);
@@ -64,6 +65,10 @@ export default function App() {
 
     // Render loop
     const render = () => {
+      // Handle rotation
+      if (keys.current['arrowleft']) camera.rotation.y += rotateSpeed;
+      if (keys.current['arrowright']) camera.rotation.y -= rotateSpeed;
+
       // Handle movement
       const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
       const right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);

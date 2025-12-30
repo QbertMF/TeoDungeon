@@ -38,6 +38,10 @@ export class LevelRenderer {
     return this.materials.get(key)!;
   }
 
+  private isPortal(wall: { bottomHeight: number; topHeight: number }): boolean {
+    return wall.bottomHeight < 0 || wall.topHeight < 0;
+  }
+
   drawSegment(segment: LevelSegment): THREE.Group {
     const group = new THREE.Group();
 
@@ -65,28 +69,43 @@ export class LevelRenderer {
       const wall = segment.walls[i];
 
       // Bottom wall part
-      const bottomWall = this.createWallGeometry(
-        v1, v2, 
-        segment.floorHeight, 
-        segment.floorHeight + wall.bottomHeight
-      );
-      const bottomMesh = new THREE.Mesh(
-        bottomWall, 
-        this.getMaterial(wall.textureId, segment.brightness)
-      );
-      group.add(bottomMesh);
+      if (this.isPortal(wall)) {
+        // Portal: full height wall
+        const fullWall = this.createWallGeometry(
+          v1, v2, 
+          segment.floorHeight, 
+          segment.ceilingHeight
+        );
+        const fullMesh = new THREE.Mesh(
+          fullWall, 
+          this.getMaterial(wall.textureId, segment.brightness)
+        );
+        group.add(fullMesh);
+      } else {
+        // Normal walls: bottom and top parts
+        const bottomWall = this.createWallGeometry(
+          v1, v2, 
+          segment.floorHeight, 
+          segment.floorHeight + wall.bottomHeight
+        );
+        const bottomMesh = new THREE.Mesh(
+          bottomWall, 
+          this.getMaterial(wall.textureId, segment.brightness)
+        );
+        group.add(bottomMesh);
 
-      // Top wall part
-      const topWall = this.createWallGeometry(
-        v1, v2, 
-        segment.ceilingHeight - wall.topHeight, 
-        segment.ceilingHeight
-      );
-      const topMesh = new THREE.Mesh(
-        topWall, 
-        this.getMaterial(wall.textureId, segment.brightness * 0.8)
-      );
-      group.add(topMesh);
+        // Top wall part
+        const topWall = this.createWallGeometry(
+          v1, v2, 
+          segment.ceilingHeight - wall.topHeight, 
+          segment.ceilingHeight
+        );
+        const topMesh = new THREE.Mesh(
+          topWall, 
+          this.getMaterial(wall.textureId, segment.brightness * 0.8)
+        );
+        group.add(topMesh);
+      }
     }
 
     this.scene.add(group);

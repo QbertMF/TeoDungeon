@@ -16,7 +16,7 @@ export const LevelData: LevelSegment[] = [
     ],
     walls: [
       { bottomHeight: 1, topHeight: 0.5, textureId: 3 },
-      { bottomHeight: 1, topHeight: 0.5, textureId: 4 },
+      { bottomHeight: -1, topHeight: -1, textureId: 4 },
       { bottomHeight: 1, topHeight: 0.5, textureId: 5 },
       { bottomHeight: 1, topHeight: 0.5, textureId: 6 }
     ]

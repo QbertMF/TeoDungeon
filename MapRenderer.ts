@@ -60,5 +60,34 @@ export class MapRenderer {
     this.ctx.beginPath();
     this.ctx.arc(centerX, centerY, 3, 0, 2 * Math.PI);
     this.ctx.fill();
+
+    // Draw look direction arrow
+    const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+    const arrowLength = 15;
+    const arrowEndX = centerX + forward.x * arrowLength;
+    const arrowEndY = centerY + forward.z * arrowLength;
+    
+    this.ctx.strokeStyle = 'yellow';
+    this.ctx.lineWidth = 2;
+    this.ctx.beginPath();
+    this.ctx.moveTo(centerX, centerY);
+    this.ctx.lineTo(arrowEndX, arrowEndY);
+    this.ctx.stroke();
+    
+    // Arrow head
+    const angle = Math.atan2(forward.z, forward.x);
+    const headLength = 5;
+    this.ctx.beginPath();
+    this.ctx.moveTo(arrowEndX, arrowEndY);
+    this.ctx.lineTo(
+      arrowEndX - headLength * Math.cos(angle - Math.PI / 6),
+      arrowEndY - headLength * Math.sin(angle - Math.PI / 6)
+    );
+    this.ctx.moveTo(arrowEndX, arrowEndY);
+    this.ctx.lineTo(
+      arrowEndX - headLength * Math.cos(angle + Math.PI / 6),
+      arrowEndY - headLength * Math.sin(angle + Math.PI / 6)
+    );
+    this.ctx.stroke();
   }
 }
