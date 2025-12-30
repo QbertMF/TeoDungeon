@@ -28,31 +28,28 @@ export class MapRenderer {
     const centerY = this.canvas.height / 2;
     const scale = 20;
 
-    // Set line style
-    this.ctx.strokeStyle = 'red';
-    this.ctx.lineWidth = 2;
-
     LevelData.forEach(sector => {
-      this.ctx.beginPath();
-      
-      sector.vertices.forEach((vertex, index) => {
-        const x = centerX + (vertex.x - camera.position.x) * scale;
-        const y = centerY + (vertex.y - camera.position.z) * scale;
+      // Draw walls individually with different colors
+      for (let i = 0; i < sector.vertices.length; i++) {
+        const nextI = (i + 1) % sector.vertices.length;
+        const v1 = sector.vertices[i];
+        const v2 = sector.vertices[nextI];
+        const wall = sector.walls[i];
         
-        if (index === 0) {
-          this.ctx.moveTo(x, y);
-        } else {
-          this.ctx.lineTo(x, y);
-        }
-      });
-      
-      // Close the polygon
-      const firstVertex = sector.vertices[0];
-      const x = centerX + (firstVertex.x - camera.position.x) * scale;
-      const y = centerY + (firstVertex.y - camera.position.z) * scale;
-      this.ctx.lineTo(x, y);
-      
-      this.ctx.stroke();
+        const x1 = centerX + (v1.x - camera.position.x) * scale;
+        const y1 = centerY + (v1.y - camera.position.z) * scale;
+        const x2 = centerX + (v2.x - camera.position.x) * scale;
+        const y2 = centerY + (v2.y - camera.position.z) * scale;
+        
+        // Set color based on portal status
+        this.ctx.strokeStyle = (wall.bottomHeight < 0 || wall.topHeight < 0) ? 'red' : 'gray';
+        this.ctx.lineWidth = 2;
+        
+        this.ctx.beginPath();
+        this.ctx.moveTo(x1, y1);
+        this.ctx.lineTo(x2, y2);
+        this.ctx.stroke();
+      }
     });
 
     // Draw player position (center dot)
