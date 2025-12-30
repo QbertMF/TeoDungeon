@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { LevelSegment } from './types/LevelStructure';
+import { LevelSector } from './types/LevelStructure';
 import { LevelData } from './LevelData';
 
 export class LevelRenderer {
@@ -42,67 +42,67 @@ export class LevelRenderer {
     return wall.bottomHeight < 0 || wall.topHeight < 0;
   }
 
-  drawSegment(segment: LevelSegment): THREE.Group {
+  drawSector(sector: LevelSector): THREE.Group {
     const group = new THREE.Group();
 
     // Draw floor
-    const floorGeometry = new THREE.ShapeGeometry(this.createShape(segment.vertices));
-    const floorMaterial = this.getMaterial(segment.floorTextureId, segment.brightness);
+    const floorGeometry = new THREE.ShapeGeometry(this.createShape(sector.vertices));
+    const floorMaterial = this.getMaterial(sector.floorTextureId, sector.brightness);
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.rotation.x = -Math.PI / 2;
-    floor.position.y = segment.floorHeight;
+    floor.position.y = sector.floorHeight;
     group.add(floor);
 
     // Draw ceiling
-    const ceilingGeometry = new THREE.ShapeGeometry(this.createShape(segment.vertices));
-    const ceilingMaterial = this.getMaterial(segment.ceilingTextureId, segment.brightness);
+    const ceilingGeometry = new THREE.ShapeGeometry(this.createShape(sector.vertices));
+    const ceilingMaterial = this.getMaterial(sector.ceilingTextureId, sector.brightness);
     const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
     ceiling.rotation.x = Math.PI / 2;
-    ceiling.position.y = segment.ceilingHeight;
+    ceiling.position.y = sector.ceilingHeight;
     group.add(ceiling);
 
     // Draw walls
-    for (let i = 0; i < segment.vertices.length; i++) {
-      const nextI = (i + 1) % segment.vertices.length;
-      const v1 = segment.vertices[i];
-      const v2 = segment.vertices[nextI];
-      const wall = segment.walls[i];
+    for (let i = 0; i < sector.vertices.length; i++) {
+      const nextI = (i + 1) % sector.vertices.length;
+      const v1 = sector.vertices[i];
+      const v2 = sector.vertices[nextI];
+      const wall = sector.walls[i];
 
       // Bottom wall part
       if (this.isPortal(wall)) {
         // Portal: full height wall
         const fullWall = this.createWallGeometry(
           v1, v2, 
-          segment.floorHeight, 
-          segment.ceilingHeight
+          sector.floorHeight, 
+          sector.ceilingHeight
         );
         const fullMesh = new THREE.Mesh(
           fullWall, 
-          this.getMaterial(wall.textureId, segment.brightness)
+          this.getMaterial(wall.textureId, sector.brightness)
         );
         group.add(fullMesh);
       } else {
         // Normal walls: bottom and top parts
         const bottomWall = this.createWallGeometry(
           v1, v2, 
-          segment.floorHeight, 
-          segment.floorHeight + wall.bottomHeight
+          sector.floorHeight, 
+          sector.floorHeight + wall.bottomHeight
         );
         const bottomMesh = new THREE.Mesh(
           bottomWall, 
-          this.getMaterial(wall.textureId, segment.brightness)
+          this.getMaterial(wall.textureId, sector.brightness)
         );
         group.add(bottomMesh);
 
         // Top wall part
         const topWall = this.createWallGeometry(
           v1, v2, 
-          segment.ceilingHeight - wall.topHeight, 
-          segment.ceilingHeight
+          sector.ceilingHeight - wall.topHeight, 
+          sector.ceilingHeight
         );
         const topMesh = new THREE.Mesh(
           topWall, 
-          this.getMaterial(wall.textureId, segment.brightness * 0.8)
+          this.getMaterial(wall.textureId, sector.brightness * 0.8)
         );
         group.add(topMesh);
       }

@@ -32,10 +32,10 @@ export class MapRenderer {
     this.ctx.strokeStyle = 'red';
     this.ctx.lineWidth = 2;
 
-    LevelData.forEach(segment => {
+    LevelData.forEach(sector => {
       this.ctx.beginPath();
       
-      segment.vertices.forEach((vertex, index) => {
+      sector.vertices.forEach((vertex, index) => {
         const x = centerX + (vertex.x - camera.position.x) * scale;
         const y = centerY + (vertex.y - camera.position.z) * scale;
         
@@ -47,7 +47,7 @@ export class MapRenderer {
       });
       
       // Close the polygon
-      const firstVertex = segment.vertices[0];
+      const firstVertex = sector.vertices[0];
       const x = centerX + (firstVertex.x - camera.position.x) * scale;
       const y = centerY + (firstVertex.y - camera.position.z) * scale;
       this.ctx.lineTo(x, y);

@@ -56,11 +56,11 @@ export default function App() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
-    // Draw all segments from LevelData
+    // Draw all sectors from LevelData
     const levelRenderer = new LevelRenderer(scene);
     const mapRenderer = new MapRenderer();
-    LevelData.forEach(segment => {
-      levelRenderer.drawSegment(segment);
+    LevelData.forEach(sector => {
+      levelRenderer.drawSector(sector);
     });
 
     // Render loop

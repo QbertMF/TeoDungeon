@@ -11,8 +11,8 @@ export interface Wall {
   textureId: number;       // Unique texture identifier for this wall
 }
 
-// Polygonal level segment
-export interface LevelSegment {
+// Polygonal level sector
+export interface LevelSector {
   // Floor and ceiling properties
   floorHeight: number;     // Base floor height
   ceilingHeight: number;   // Base ceiling height
@@ -29,7 +29,7 @@ export interface LevelSegment {
 
 // Complete level structure
 export interface Level {
-  segments: LevelSegment[];
+  sectors: LevelSector[];
   name?: string;
   textureAtlas?: string;   // Path to texture atlas
 }

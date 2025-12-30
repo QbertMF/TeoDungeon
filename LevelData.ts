@@ -1,7 +1,7 @@
-import { LevelSegment } from './types/LevelStructure';
+import { LevelSector } from './types/LevelStructure';
 
 // Global level data array
-export const LevelData: LevelSegment[] = [
+export const LevelData: LevelSector[] = [
   {
     floorHeight: 0,
     ceilingHeight: 3,
