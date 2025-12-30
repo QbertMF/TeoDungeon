@@ -113,15 +113,17 @@ export class LevelRenderer {
     const height = topY - bottomY;
     const geometry = new THREE.PlaneGeometry(width, height);
     
-    // Position and rotate the wall
+    // Position at center of wall segment
     const centerX = (v1.x + v2.x) / 2;
     const centerZ = (v1.y + v2.y) / 2;
     const centerY = (bottomY + topY) / 2;
     
-    geometry.translate(centerX, centerY, centerZ);
-    
+    // Calculate rotation angle
     const angle = Math.atan2(v2.y - v1.y, v2.x - v1.x);
-    geometry.rotateY(angle + Math.PI / 2);
+    
+    // Apply transformations
+    geometry.rotateY(angle);
+    geometry.translate(centerX, centerY, centerZ);
     
     return geometry;
   }
