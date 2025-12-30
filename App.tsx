@@ -1,12 +1,32 @@
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { View } from 'react-native';
 import { GLView } from 'expo-gl';
 import { Renderer } from 'expo-three';
 import * as THREE from 'three';
+import { SegmentRenderer } from './SegmentRenderer';
+import { LevelData } from './LevelData';
 
 export default function App() {
   const raf = useRef<number | null>(null);
+  const keys = useRef<{ [key: string]: boolean }>({});
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      keys.current[e.key.toLowerCase()] = true;
+    };
+    const handleKeyUp = (e: KeyboardEvent) => {
+      keys.current[e.key.toLowerCase()] = false;
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
 
   const onContextCreate = async (gl: any) => {
     // Renderer (connects Three.js to Expo's GL)
@@ -21,23 +41,35 @@ export default function App() {
       0.01,
       1000
     );
-    camera.position.z = 2;
+    camera.position.set(0, 1.5, 0);
+    const direction = new THREE.Vector3(0, 0, -1);
+    const moveSpeed = 0.1;
 
     // Light
-    const light = new THREE.DirectionalLight(0xffffff, 1);
+    const light = new THREE.DirectionalLight(0xffffff, 2);
     light.position.set(1, 1, 1);
     scene.add(light);
 
-    // Object: spinning cube
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshStandardMaterial({ color: '#3f51b5' });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    // Ambient light for overall brightness
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    // Draw all segments from LevelData
+    const segmentRenderer = new SegmentRenderer(scene);
+    LevelData.forEach(segment => {
+      segmentRenderer.drawSegment(segment);
+    });
 
     // Render loop
     const render = () => {
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.015;
+      // Handle movement
+      const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+      const right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
+
+      if (keys.current['w']) camera.position.add(forward.multiplyScalar(moveSpeed));
+      if (keys.current['s']) camera.position.add(forward.multiplyScalar(-moveSpeed));
+      if (keys.current['a']) camera.position.add(right.multiplyScalar(-moveSpeed));
+      if (keys.current['d']) camera.position.add(right.multiplyScalar(moveSpeed));
 
       renderer.render(scene, camera);
       gl.endFrameEXP(); // tell Expo GL to display the frame
