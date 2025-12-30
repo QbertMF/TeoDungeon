@@ -86,5 +86,14 @@ export class MapRenderer {
       arrowEndY - headLength * Math.sin(angle + Math.PI / 6)
     );
     this.ctx.stroke();
+    
+    // Draw camera coordinates
+    this.ctx.fillStyle = 'white';
+    this.ctx.font = '12px Arial';
+    this.ctx.fillText(
+      `X: ${camera.position.x.toFixed(1)}   Z: ${camera.position.z.toFixed(1)}`,
+      5,
+      this.canvas.height - 5
+    );
   }
 }

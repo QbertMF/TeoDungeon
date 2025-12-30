@@ -52,6 +52,8 @@ export class LevelRenderer {
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = sector.floorHeight;
+    floor.position.x = 0;
+    floor.position.z = 0;
     group.add(floor);
 
     // Draw ceiling
