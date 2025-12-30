@@ -4,7 +4,8 @@ import { View } from 'react-native';
 import { GLView } from 'expo-gl';
 import { Renderer } from 'expo-three';
 import * as THREE from 'three';
-import { SegmentRenderer } from './SegmentRenderer';
+import { LevelRenderer } from './LevelRenderer';
+import { MapRenderer } from './MapRenderer';
 import { LevelData } from './LevelData';
 
 export default function App() {
@@ -55,9 +56,10 @@ export default function App() {
     scene.add(ambientLight);
 
     // Draw all segments from LevelData
-    const segmentRenderer = new SegmentRenderer(scene);
+    const levelRenderer = new LevelRenderer(scene);
+    const mapRenderer = new MapRenderer();
     LevelData.forEach(segment => {
-      segmentRenderer.drawSegment(segment);
+      levelRenderer.drawSegment(segment);
     });
 
     // Render loop
@@ -70,6 +72,9 @@ export default function App() {
       if (keys.current['s']) camera.position.add(forward.multiplyScalar(-moveSpeed));
       if (keys.current['a']) camera.position.add(right.multiplyScalar(-moveSpeed));
       if (keys.current['d']) camera.position.add(right.multiplyScalar(moveSpeed));
+
+      // Update 2D map
+      mapRenderer.drawMap(camera);
 
       renderer.render(scene, camera);
       gl.endFrameEXP(); // tell Expo GL to display the frame
