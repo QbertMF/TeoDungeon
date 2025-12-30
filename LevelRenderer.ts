@@ -40,7 +40,7 @@ export class LevelRenderer {
   }
 
   private isPortal(wall: { bottomHeight: number; topHeight: number }): boolean {
-    return wall.bottomHeight < 0 || wall.topHeight < 0;
+    return wall.bottomHeight >= 0 && wall.topHeight >= 0;
   }
 
   drawSector(sector: LevelSector): THREE.Group {
@@ -73,18 +73,6 @@ export class LevelRenderer {
 
       // Bottom wall part
       if (this.isPortal(wall)) {
-        // Portal: full height wall
-        const fullWall = this.createWallGeometry(
-          v1, v2, 
-          sector.floorHeight, 
-          sector.ceilingHeight
-        );
-        const fullMesh = new THREE.Mesh(
-          fullWall, 
-          this.getMaterial(wall.textureId, sector.brightness)
-        );
-        group.add(fullMesh);
-      } else {
         // Normal walls: bottom and top parts
         const bottomWall = this.createWallGeometry(
           v1, v2, 
@@ -108,6 +96,18 @@ export class LevelRenderer {
           this.getMaterial(wall.textureId, sector.brightness * 0.8)
         );
         group.add(topMesh);
+      } else {
+        // Portal: full height wall
+        const fullWall = this.createWallGeometry(
+          v1, v2, 
+          sector.floorHeight, 
+          sector.ceilingHeight
+        );
+        const fullMesh = new THREE.Mesh(
+          fullWall, 
+          this.getMaterial(wall.textureId, sector.brightness)
+        );
+        group.add(fullMesh);
       }
     }
 
