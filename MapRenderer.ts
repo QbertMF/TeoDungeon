@@ -1,4 +1,5 @@
 import { LevelData } from './LevelData';
+import { playerSector } from './LevelData';
 import * as THREE from 'three';
 
 export class MapRenderer {
@@ -109,11 +110,16 @@ export class MapRenderer {
     );
     this.ctx.stroke();
     
-    // Draw camera coordinates
+    // Draw camera coordinates and sector
     this.ctx.fillStyle = 'white';
     this.ctx.font = '12px Arial';
     this.ctx.fillText(
       `X: ${camera.position.x.toFixed(1)}   Z: ${camera.position.z.toFixed(1)}`,
+      5,
+      this.canvas.height - 20
+    );
+    this.ctx.fillText(
+      `Sector: ${playerSector}`,
       5,
       this.canvas.height - 5
     );

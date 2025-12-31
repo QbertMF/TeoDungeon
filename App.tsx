@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { HelpOverlay } from './HelpOverlay';
-import { LevelData } from './LevelData';
+import { LevelData, updatePlayerSector } from './LevelData';
 import { Asset } from 'expo-asset';
 
 export default function App() {
@@ -111,6 +111,9 @@ export default function App() {
       if (keys.current['s']) camera.position.add(forward.multiplyScalar(-moveSpeed));
       if (keys.current['a']) camera.position.add(right.multiplyScalar(-moveSpeed));
       if (keys.current['d']) camera.position.add(right.multiplyScalar(moveSpeed));
+
+      // Update player sector after movement
+      updatePlayerSector(camera.position.x, camera.position.z);
 
       // Update 2D map
       mapRenderer.drawMap(camera);

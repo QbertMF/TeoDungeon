@@ -1,5 +1,35 @@
 import { LevelSector } from './types/LevelStructure';
 
+// Global player sector index
+export let playerSector: number = 0;
+
+// Function to check if point is inside polygon using ray casting
+function isPointInPolygon(x: number, y: number, vertices: { x: number; y: number }[]): boolean {
+  let inside = false;
+  for (let i = 0, j = vertices.length - 1; i < vertices.length; j = i++) {
+    if (((vertices[i].y > y) !== (vertices[j].y > y)) &&
+        (x < (vertices[j].x - vertices[i].x) * (y - vertices[i].y) / (vertices[j].y - vertices[i].y) + vertices[i].x)) {
+      inside = !inside;
+    }
+  }
+  return inside;
+}
+
+// Function to find which sector contains the given position
+export function findPlayerSector(x: number, z: number): number {
+  for (let i = 0; i < LevelData.length; i++) {
+    if (isPointInPolygon(x, z, LevelData[i].vertices)) {
+      return i;
+    }
+  }
+  return 0; // Default to first sector if not found
+}
+
+// Function to update player sector
+export function updatePlayerSector(x: number, z: number): void {
+  playerSector = findPlayerSector(x, z);
+}
+
 // Global level data array
 export const LevelData: LevelSector[] = [
   {
@@ -98,3 +128,6 @@ export const LevelData: LevelSector[] = [
     ]
   }
 ];
+
+// Initialize player sector (assumes player starts at origin)
+playerSector = findPlayerSector(0, 0);
