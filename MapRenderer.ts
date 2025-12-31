@@ -1,5 +1,4 @@
-import { LevelData } from './LevelData';
-import { playerSector } from './LevelData';
+import { LevelData, playerSector, playerSectorWall } from './LevelData';
 import * as THREE from 'three';
 
 export class MapRenderer {
@@ -64,8 +63,12 @@ export class MapRenderer {
         const x2 = centerX + (v2.x - camera.position.x) * this.scale;
         const y2 = centerY + (v2.y - camera.position.z) * this.scale;
         
-        // Set color based on texture ID
-        this.ctx.strokeStyle = this.getColorFromTextureId(wall.textureId);
+        // Set color based on texture ID or highlight if looking at this wall
+        if (index === playerSector && i === playerSectorWall && playerSectorWall !== -1) {
+          this.ctx.strokeStyle = 'white';
+        } else {
+          this.ctx.strokeStyle = this.getColorFromTextureId(wall.textureId);
+        }
         this.ctx.lineWidth = 2;
         
         this.ctx.beginPath();
@@ -136,7 +139,7 @@ export class MapRenderer {
       this.canvas.height - 20
     );
     this.ctx.fillText(
-      `Sector: ${playerSector}`,
+      `Sector: ${playerSector === -1 ? 'outside' : playerSector}`,
       5,
       this.canvas.height - 5
     );

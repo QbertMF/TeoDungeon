@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { HelpOverlay } from './HelpOverlay';
-import { LevelData, updatePlayerSector } from './LevelData';
+import { LevelData, updatePlayerSector, findLookingAtWall } from './LevelData';
 import { Asset } from 'expo-asset';
 
 export default function App() {
@@ -118,6 +118,10 @@ export default function App() {
 
       // Update player sector after movement
       updatePlayerSector(camera.position.x, camera.position.z);
+      
+      // Update which wall player is looking at
+      const forwardDir = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+      findLookingAtWall(camera.position.x, camera.position.z, forwardDir.x, forwardDir.z);
 
       // Update 2D map
       mapRenderer.drawMap(camera);

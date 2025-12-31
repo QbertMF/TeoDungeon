@@ -3,6 +3,65 @@ import { LevelSector } from './types/LevelStructure';
 // Global player sector index
 export let playerSector: number = 0;
 
+// Global player sector wall index
+export let playerSectorWall: number = -1;
+
+// Function to find line-line intersection
+function lineIntersection(
+  x1: number, y1: number, x2: number, y2: number,
+  x3: number, y3: number, x4: number, y4: number
+): { x: number; y: number; t: number } | null {
+  const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+  if (Math.abs(denom) < 1e-10) return null; // Lines are parallel
+  
+  const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
+  const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
+  
+  if (t >= 0 && u >= 0 && u <= 1) {
+    return {
+      x: x1 + t * (x2 - x1),
+      y: y1 + t * (y2 - y1),
+      t: t
+    };
+  }
+  return null;
+}
+
+// Function to find which wall the camera is looking at
+export function findLookingAtWall(cameraX: number, cameraZ: number, lookDirX: number, lookDirZ: number): void {
+  if (playerSector < 0 || playerSector >= LevelData.length) {
+    playerSectorWall = -1;
+    return;
+  }
+  
+  const sector = LevelData[playerSector];
+  let closestWall = -1;
+  let closestDistance = Infinity;
+  
+  // Cast ray from camera position in look direction
+  const rayEndX = cameraX + lookDirX * 1000; // Extend ray far out
+  const rayEndZ = cameraZ + lookDirZ * 1000;
+  
+  // Check intersection with each wall
+  for (let i = 0; i < sector.vertices.length; i++) {
+    const nextI = (i + 1) % sector.vertices.length;
+    const v1 = sector.vertices[i];
+    const v2 = sector.vertices[nextI];
+    
+    const intersection = lineIntersection(
+      cameraX, cameraZ, rayEndX, rayEndZ,
+      v1.x, v1.y, v2.x, v2.y
+    );
+    
+    if (intersection && intersection.t < closestDistance) {
+      closestDistance = intersection.t;
+      closestWall = i;
+    }
+  }
+  
+  playerSectorWall = closestWall;
+}
+
 // Function to check if point is inside polygon using ray casting
 function isPointInPolygon(x: number, y: number, vertices: { x: number; y: number }[]): boolean {
   let inside = false;
@@ -22,7 +81,7 @@ export function findPlayerSector(x: number, z: number): number {
       return i;
     }
   }
-  return 0; // Default to first sector if not found
+  return -1; // Return -1 if not found in any sector
 }
 
 // Function to update player sector
