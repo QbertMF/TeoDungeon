@@ -240,6 +240,11 @@ export function adjustWallTopHeight(increase: boolean): void {
   }
 }
 
+// Function to print all sectors to console
+export function printSectors(): void {
+  console.log('All Sectors:', JSON.stringify(LevelData, null, 2));
+}
+
 // Function to add new sector sharing the current wall
 export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: number): void {
   if (playerSector < 0 || playerSector >= LevelData.length || playerSectorWall < 0) {

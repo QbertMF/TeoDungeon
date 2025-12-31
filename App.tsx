@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { HelpOverlay } from './HelpOverlay';
-import { LevelData, updatePlayerSector, findLookingAtWall, toggleWall, addSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight } from './LevelData';
+import { LevelData, updatePlayerSector, findLookingAtWall, toggleWall, addSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight, printSectors } from './LevelData';
 import { Asset } from 'expo-asset';
 
 export default function App() {
@@ -162,6 +162,10 @@ export default function App() {
         adjustWallTopHeight(true);
         levelRenderer.refreshLevel();
         keys.current['g'] = false;
+      }
+      if (keys.current['p']) {
+        printSectors();
+        keys.current['p'] = false;
       }
 
       // Handle movement
