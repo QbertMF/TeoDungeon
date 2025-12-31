@@ -47,6 +47,8 @@ export default function App() {
     const direction = new THREE.Vector3(0, 0, -1);
     const moveSpeed = 0.1;
     const rotateSpeed = 0.05;
+    let yaw = 0;
+    let pitch = 0;
 
     // Light
     const light = new THREE.DirectionalLight(0xffffff, 2);
@@ -81,8 +83,15 @@ export default function App() {
     // Render loop
     const render = () => {
       // Handle rotation
-      if (keys.current['arrowleft']) camera.rotation.y += rotateSpeed;
-      if (keys.current['arrowright']) camera.rotation.y -= rotateSpeed;
+      if (keys.current['arrowleft']) yaw += rotateSpeed;
+      if (keys.current['arrowright']) yaw -= rotateSpeed;
+      if (keys.current['arrowup']) pitch = Math.max(pitch - rotateSpeed, -Math.PI / 2);
+      if (keys.current['arrowdown']) pitch = Math.min(pitch + rotateSpeed, Math.PI / 2);
+      
+      // Apply rotations in correct order
+      camera.rotation.order = 'YXZ';
+      camera.rotation.y = yaw;
+      camera.rotation.x = pitch;
 
       // Handle movement
       const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
