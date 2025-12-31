@@ -112,7 +112,7 @@ export function updatePlayerSector(x: number, z: number): void {
 }
 
 // Function to add new sector sharing the current wall
-export function addSector(vertexCount: number): void {
+export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: number): void {
   if (playerSector < 0 || playerSector >= LevelData.length || playerSectorWall < 0) {
     return;
   }
@@ -122,15 +122,6 @@ export function addSector(vertexCount: number): void {
   const v1 = currentSector.vertices[playerSectorWall];
   const v2 = currentSector.vertices[nextWallIndex];
   
-  // Calculate wall direction and perpendicular
-  const wallDx = v2.x - v1.x;
-  const wallDy = v2.y - v1.y;
-  const perpX = -wallDy; // Perpendicular to wall
-  const perpY = wallDx;
-  const perpLength = Math.sqrt(perpX * perpX + perpY * perpY);
-  const normPerpX = perpX / perpLength;
-  const normPerpY = perpY / perpLength;
-  
   // Create vertices for new sector
   const vertices = [];
   const walls = [];
@@ -139,17 +130,65 @@ export function addSector(vertexCount: number): void {
   vertices.push({ x: v2.x, y: v2.y });
   vertices.push({ x: v1.x, y: v1.y });
   
-  // Add remaining vertices in a regular polygon pattern
-  const centerX = (v1.x + v2.x) / 2 + normPerpX * 2;
-  const centerY = (v1.y + v2.y) / 2 + normPerpY * 2;
-  const radius = 2;
-  
-  for (let i = 2; i < vertexCount; i++) {
-    const angle = (Math.PI * 2 * (i - 2)) / (vertexCount - 2);
+  if (vertexCount === 3 && lookDirX !== undefined && lookDirZ !== undefined) {
+    // Triangle: place third vertex in look direction
+    const wallCenterX = (v1.x + v2.x) / 2;
+    const wallCenterY = (v1.y + v2.y) / 2;
+    const distance = 2;
     vertices.push({
-      x: centerX + Math.cos(angle) * radius,
-      y: centerY + Math.sin(angle) * radius
+      x: wallCenterX + lookDirX * distance,
+      y: wallCenterY + lookDirZ * distance
     });
+  } else if (vertexCount === 4 && lookDirX !== undefined && lookDirZ !== undefined) {
+    // Quad: place two vertices in look direction
+    const distance = 2;
+    vertices.push({
+      x: v1.x + lookDirX * distance,
+      y: v1.y + lookDirZ * distance
+    });
+    vertices.push({
+      x: v2.x + lookDirX * distance,
+      y: v2.y + lookDirZ * distance
+    });
+  } else if (lookDirX !== undefined && lookDirZ !== undefined) {
+    // Pentagon/Hexagon: place center in look direction, arrange vertices around it
+    const wallCenterX = (v1.x + v2.x) / 2;
+    const wallCenterY = (v1.y + v2.y) / 2;
+    const centerX = wallCenterX + lookDirX * 2;
+    const centerY = wallCenterY + lookDirZ * 2;
+    const radius = 1.5;
+    
+    // Calculate angle to first vertex (v2) to align polygon properly
+    const baseAngle = Math.atan2(v2.y - centerY, v2.x - centerX);
+    
+    for (let i = 2; i < vertexCount; i++) {
+      const angle = baseAngle + (Math.PI * 2 * i) / vertexCount;
+      vertices.push({
+        x: centerX + Math.cos(angle) * radius,
+        y: centerY + Math.sin(angle) * radius
+      });
+    }
+  } else {
+    // Other polygons: use perpendicular placement
+    const wallDx = v2.x - v1.x;
+    const wallDy = v2.y - v1.y;
+    const perpX = -wallDy;
+    const perpY = wallDx;
+    const perpLength = Math.sqrt(perpX * perpX + perpY * perpY);
+    const normPerpX = perpX / perpLength;
+    const normPerpY = perpY / perpLength;
+    
+    const centerX = (v1.x + v2.x) / 2 + normPerpX * 2;
+    const centerY = (v1.y + v2.y) / 2 + normPerpY * 2;
+    const radius = 2;
+    
+    for (let i = 2; i < vertexCount; i++) {
+      const angle = (Math.PI * 2 * (i - 2)) / (vertexCount - 2);
+      vertices.push({
+        x: centerX + Math.cos(angle) * radius,
+        y: centerY + Math.sin(angle) * radius
+      });
+    }
   }
   
   // Create walls

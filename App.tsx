@@ -112,22 +112,26 @@ export default function App() {
         keys.current['m'] = false; // Prevent continuous toggling
       }
       if (keys.current['3']) {
-        addSector(3);
+        const forwardDir = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+        addSector(3, forwardDir.x, forwardDir.z);
         levelRenderer.refreshLevel();
         keys.current['3'] = false;
       }
       if (keys.current['4']) {
-        addSector(4);
+        const forwardDir = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+        addSector(4, forwardDir.x, forwardDir.z);
         levelRenderer.refreshLevel();
         keys.current['4'] = false;
       }
       if (keys.current['5']) {
-        addSector(5);
+        const forwardDir = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+        addSector(5, forwardDir.x, forwardDir.z);
         levelRenderer.refreshLevel();
         keys.current['5'] = false;
       }
       if (keys.current['6']) {
-        addSector(6);
+        const forwardDir = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+        addSector(6, forwardDir.x, forwardDir.z);
         levelRenderer.refreshLevel();
         keys.current['6'] = false;
       }
