@@ -245,6 +245,11 @@ export function printSectors(): void {
   console.log('All Sectors:', JSON.stringify(LevelData, null, 2));
 }
 
+// Function to snap coordinate to 0.1 grid
+function snapToGrid(value: number): number {
+  return Math.round(value * 10) / 10;
+}
+
 // Function to add new sector sharing the current wall
 export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: number): void {
   if (playerSector < 0 || playerSector >= LevelData.length || playerSectorWall < 0) {
@@ -270,19 +275,19 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
     const wallCenterY = (v1.y + v2.y) / 2;
     const distance = 2;
     vertices.push({
-      x: wallCenterX + lookDirX * distance,
-      y: wallCenterY + lookDirZ * distance
+      x: snapToGrid(wallCenterX + lookDirX * distance),
+      y: snapToGrid(wallCenterY + lookDirZ * distance)
     });
   } else if (vertexCount === 4 && lookDirX !== undefined && lookDirZ !== undefined) {
     // Quad: place two vertices in look direction
     const distance = 2;
     vertices.push({
-      x: v1.x + lookDirX * distance,
-      y: v1.y + lookDirZ * distance
+      x: snapToGrid(v1.x + lookDirX * distance),
+      y: snapToGrid(v1.y + lookDirZ * distance)
     });
     vertices.push({
-      x: v2.x + lookDirX * distance,
-      y: v2.y + lookDirZ * distance
+      x: snapToGrid(v2.x + lookDirX * distance),
+      y: snapToGrid(v2.y + lookDirZ * distance)
     });
   } else if (lookDirX !== undefined && lookDirZ !== undefined) {
     // Pentagon/Hexagon: place center in look direction, arrange vertices around it
@@ -298,8 +303,8 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
     for (let i = 2; i < vertexCount; i++) {
       const angle = baseAngle + (Math.PI * 2 * i) / vertexCount;
       vertices.push({
-        x: centerX + Math.cos(angle) * radius,
-        y: centerY + Math.sin(angle) * radius
+        x: snapToGrid(centerX + Math.cos(angle) * radius),
+        y: snapToGrid(centerY + Math.sin(angle) * radius)
       });
     }
   } else {
@@ -319,8 +324,8 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
     for (let i = 2; i < vertexCount; i++) {
       const angle = (Math.PI * 2 * (i - 2)) / (vertexCount - 2);
       vertices.push({
-        x: centerX + Math.cos(angle) * radius,
-        y: centerY + Math.sin(angle) * radius
+        x: snapToGrid(centerX + Math.cos(angle) * radius),
+        y: snapToGrid(centerY + Math.sin(angle) * radius)
       });
     }
   }
