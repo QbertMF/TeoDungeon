@@ -6,8 +6,13 @@ export class MapRenderer {
   private ctx: CanvasRenderingContext2D;
   private scale: number = 20;
   private mapMode: 'texture' | 'portal' = 'texture';
+  private hoveredVertex: { sectorIndex: number; vertexIndex: number } | null = null;
+  private draggedVertex: { sectorIndex: number; vertexIndex: number } | null = null;
+  private isDragging: boolean = false;
+  private onLevelUpdate: (() => void) | null = null;
 
-  constructor() {
+  constructor(onLevelUpdate?: () => void) {
+    this.onLevelUpdate = onLevelUpdate || null;
     this.canvas = document.createElement('canvas');
     this.canvas.width = 200;
     this.canvas.height = 200;
@@ -20,6 +25,7 @@ export class MapRenderer {
     document.body.appendChild(this.canvas);
 
     this.ctx = this.canvas.getContext('2d')!;
+    this.setupMouseEvents();
   }
 
   private getColorFromTextureId(textureId: number): string {
@@ -52,7 +58,88 @@ export class MapRenderer {
     return wall.bottomHeight < 0 && wall.topHeight < 0;
   }
 
+  private setupMouseEvents(): void {
+    this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
+    this.canvas.addEventListener('mousedown', this.onMouseDown.bind(this));
+    this.canvas.addEventListener('mouseup', this.onMouseUp.bind(this));
+  }
+
+  private getMousePos(e: MouseEvent): { x: number; y: number } {
+    const rect = this.canvas.getBoundingClientRect();
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    };
+  }
+
+  private screenToWorld(screenX: number, screenY: number, camera: THREE.Camera): { x: number; y: number } {
+    const centerX = this.canvas.width / 2;
+    const centerY = this.canvas.height / 2;
+    return {
+      x: camera.position.x + (screenX - centerX) / this.scale,
+      y: camera.position.z + (screenY - centerY) / this.scale
+    };
+  }
+
+  private snapToGrid(value: number): number {
+    return Math.round(value / 0.2) * 0.2;
+  }
+
+  private findVertexAt(worldX: number, worldY: number): { sectorIndex: number; vertexIndex: number } | null {
+    const threshold = 5 / this.scale; // 5 pixel threshold in world units
+    
+    for (let sectorIndex = 0; sectorIndex < LevelData.length; sectorIndex++) {
+      const sector = LevelData[sectorIndex];
+      for (let vertexIndex = 0; vertexIndex < sector.vertices.length; vertexIndex++) {
+        const vertex = sector.vertices[vertexIndex];
+        const distance = Math.sqrt((vertex.x - worldX) ** 2 + (vertex.y - worldY) ** 2);
+        if (distance < threshold) {
+          return { sectorIndex, vertexIndex };
+        }
+      }
+    }
+    return null;
+  }
+
+  private onMouseMove(e: MouseEvent): void {
+    const mousePos = this.getMousePos(e);
+    // We need camera position for world conversion, store it during drawMap
+    if (!this.lastCamera) return;
+    
+    const worldPos = this.screenToWorld(mousePos.x, mousePos.y, this.lastCamera);
+    
+    if (this.isDragging && this.draggedVertex) {
+      // Update vertex position with snap to grid
+      const sector = LevelData[this.draggedVertex.sectorIndex];
+      sector.vertices[this.draggedVertex.vertexIndex].x = this.snapToGrid(worldPos.x);
+      sector.vertices[this.draggedVertex.vertexIndex].y = this.snapToGrid(worldPos.y);
+    } else {
+      // Check for vertex hover
+      this.hoveredVertex = this.findVertexAt(worldPos.x, worldPos.y);
+    }
+  }
+
+  private onMouseDown(e: MouseEvent): void {
+    if (e.button === 0 && this.hoveredVertex) { // Left mouse button
+      this.draggedVertex = this.hoveredVertex;
+      this.isDragging = true;
+    }
+  }
+
+  private onMouseUp(e: MouseEvent): void {
+    if (e.button === 0 && this.isDragging) { // Left mouse button
+      this.isDragging = false;
+      this.draggedVertex = null;
+      if (this.onLevelUpdate) {
+        this.onLevelUpdate();
+      }
+    }
+  }
+
+  private lastCamera: THREE.Camera | null = null;
+
   drawMap(camera: THREE.Camera): void {
+    this.lastCamera = camera;
     // Clear canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
@@ -143,6 +230,28 @@ export class MapRenderer {
     );
     this.ctx.stroke();
     
+    // Draw vertices
+    LevelData.forEach((sector, sectorIndex) => {
+      sector.vertices.forEach((vertex, vertexIndex) => {
+        const x = centerX + (vertex.x - camera.position.x) * this.scale;
+        const y = centerY + (vertex.y - camera.position.z) * this.scale;
+        
+        // Highlight hovered or dragged vertex
+        if ((this.hoveredVertex?.sectorIndex === sectorIndex && this.hoveredVertex?.vertexIndex === vertexIndex) ||
+            (this.draggedVertex?.sectorIndex === sectorIndex && this.draggedVertex?.vertexIndex === vertexIndex)) {
+          this.ctx.fillStyle = 'cyan';
+          this.ctx.beginPath();
+          this.ctx.arc(x, y, 4, 0, 2 * Math.PI);
+          this.ctx.fill();
+        } else {
+          this.ctx.fillStyle = 'white';
+          this.ctx.beginPath();
+          this.ctx.arc(x, y, 2, 0, 2 * Math.PI);
+          this.ctx.fill();
+        }
+      });
+    });
+
     // Draw camera coordinates and sector
     this.ctx.fillStyle = 'white';
     this.ctx.font = '12px Arial';

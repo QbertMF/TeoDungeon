@@ -76,7 +76,7 @@ export default function App() {
 
     // Draw all sectors from LevelData
     const levelRenderer = new LevelRenderer(scene);
-    const mapRenderer = new MapRenderer();
+    const mapRenderer = new MapRenderer(() => levelRenderer.refreshLevel());
     const helpOverlay = new HelpOverlay();
     LevelData.forEach(sector => {
       levelRenderer.drawSector(sector);
