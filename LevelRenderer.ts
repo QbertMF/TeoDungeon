@@ -5,6 +5,7 @@ import { LevelData } from './LevelData';
 export class LevelRenderer {
   private scene: THREE.Scene;
   private materials: Map<number, THREE.Material> = new Map();
+  private sectorGroups: THREE.Group[] = [];
 
   constructor(scene: THREE.Scene) {
     this.scene = scene;
@@ -40,7 +41,7 @@ export class LevelRenderer {
   }
 
   private isPortal(wall: { bottomHeight: number; topHeight: number }): boolean {
-    return wall.bottomHeight >= 0 && wall.topHeight >= 0;
+    return wall.bottomHeight < 0 && wall.topHeight < 0;
   }
 
   drawSector(sector: LevelSector): THREE.Group {
@@ -71,8 +72,13 @@ export class LevelRenderer {
       const v2 = sector.vertices[nextI];
       const wall = sector.walls[i];
 
-      // Bottom wall part
-      if (this.isPortal(wall)) {
+      // Check if wall is a full portal (bottomHeight equals floorHeight and topHeight equals ceilingHeight)
+      if (wall.bottomHeight === sector.floorHeight && wall.topHeight === sector.ceilingHeight) {
+        // Full portal - don't render any wall
+        continue;
+      }
+      
+      if (!this.isPortal(wall)) {
         // Normal walls: bottom and top parts
         const bottomWall = this.createWallGeometry(
           v1, v2, 
@@ -97,7 +103,7 @@ export class LevelRenderer {
         );
         group.add(topMesh);
       } else {
-        // Portal: full height wall
+        // Solid wall: full height
         const fullWall = this.createWallGeometry(
           v1, v2, 
           sector.floorHeight, 
@@ -112,7 +118,21 @@ export class LevelRenderer {
     }
 
     this.scene.add(group);
+    this.sectorGroups.push(group);
     return group;
+  }
+
+  refreshLevel(): void {
+    // Remove all existing sector groups
+    this.sectorGroups.forEach(group => {
+      this.scene.remove(group);
+    });
+    this.sectorGroups = [];
+    
+    // Redraw all sectors
+    LevelData.forEach(sector => {
+      this.drawSector(sector);
+    });
   }
 
   private createShape(vertices: { x: number; y: number }[]): THREE.Shape {

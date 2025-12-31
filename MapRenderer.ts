@@ -5,6 +5,7 @@ export class MapRenderer {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private scale: number = 20;
+  private mapMode: 'texture' | 'portal' = 'texture';
 
   constructor() {
     this.canvas = document.createElement('canvas');
@@ -43,6 +44,14 @@ export class MapRenderer {
     this.scale = Math.max(this.scale / 1.2, 5);
   }
 
+  toggleMapMode(): void {
+    this.mapMode = this.mapMode === 'texture' ? 'portal' : 'texture';
+  }
+
+  private isPortal(wall: { bottomHeight: number; topHeight: number }): boolean {
+    return wall.bottomHeight < 0 && wall.topHeight < 0;
+  }
+
   drawMap(camera: THREE.Camera): void {
     // Clear canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -63,10 +72,14 @@ export class MapRenderer {
         const x2 = centerX + (v2.x - camera.position.x) * this.scale;
         const y2 = centerY + (v2.y - camera.position.z) * this.scale;
         
-        // Set color based on texture ID or highlight if looking at this wall
+        // Set color based on mode
         if (index === playerSector && i === playerSectorWall && playerSectorWall !== -1) {
           this.ctx.strokeStyle = 'white';
+        } else if (this.mapMode === 'portal') {
+          // Portal mode: red for portals, yellow for walls
+          this.ctx.strokeStyle = this.isPortal(wall) ? 'red' : 'yellow';
         } else {
+          // Texture mode: use texture colors
           this.ctx.strokeStyle = this.getColorFromTextureId(wall.textureId);
         }
         this.ctx.lineWidth = 2;

@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { HelpOverlay } from './HelpOverlay';
-import { LevelData, updatePlayerSector, findLookingAtWall } from './LevelData';
+import { LevelData, updatePlayerSector, findLookingAtWall, toggleWall } from './LevelData';
 import { Asset } from 'expo-asset';
 
 export default function App() {
@@ -101,6 +101,15 @@ export default function App() {
       if (keys.current['0']) {
         pitch = 0;
         camera.rotation.x = pitch;
+      }
+      if (keys.current['1']) {
+        toggleWall();
+        levelRenderer.refreshLevel();
+        keys.current['1'] = false; // Prevent continuous toggling
+      }
+      if (keys.current['m']) {
+        mapRenderer.toggleMapMode();
+        keys.current['m'] = false; // Prevent continuous toggling
       }
       if (keys.current['?']) {
         helpOverlay.toggle();

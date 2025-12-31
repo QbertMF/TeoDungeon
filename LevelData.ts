@@ -84,6 +84,28 @@ export function findPlayerSector(x: number, z: number): number {
   return -1; // Return -1 if not found in any sector
 }
 
+// Function to toggle wall between solid and portal
+export function toggleWall(): void {
+  if (playerSector < 0 || playerSector >= LevelData.length || playerSectorWall < 0) {
+    return; // Can't toggle if not in a sector or not looking at a wall
+  }
+  
+  const sector = LevelData[playerSector];
+  const wall = sector.walls[playerSectorWall];
+  console.log(`Toggling wall ${playerSectorWall} in sector ${playerSector}`);
+  
+  // Check if current wall is a solid wall (both heights are -1)
+  if (wall.bottomHeight === -1 && wall.topHeight === -1) {
+    // Convert to portal: set heights to sector floor/ceiling
+    wall.bottomHeight = sector.floorHeight;
+    wall.topHeight = sector.ceilingHeight;
+  } else {
+    // Convert to solid wall: set both heights to -1
+    wall.bottomHeight = -1;
+    wall.topHeight = -1;
+  }
+}
+
 // Function to update player sector
 export function updatePlayerSector(x: number, z: number): void {
   playerSector = findPlayerSector(x, z);
@@ -163,7 +185,7 @@ export const LevelData: LevelSector[] = [
     ],
     walls: [
       { bottomHeight: 0, topHeight: 0.5, textureId: 22 },
-      { bottomHeight: -1, topHeight: -1, textureId: 23 },
+      { bottomHeight: 0.0, topHeight: 0.5, textureId: 23 },
       { bottomHeight: -1, topHeight: -1, textureId: 24 }
     ]
   },
