@@ -6,6 +6,7 @@ import { Renderer } from 'expo-three';
 import * as THREE from 'three';
 import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
+import { HelpOverlay } from './HelpOverlay';
 import { LevelData } from './LevelData';
 import { Asset } from 'expo-asset';
 
@@ -76,6 +77,7 @@ export default function App() {
     // Draw all sectors from LevelData
     const levelRenderer = new LevelRenderer(scene);
     const mapRenderer = new MapRenderer();
+    const helpOverlay = new HelpOverlay();
     LevelData.forEach(sector => {
       levelRenderer.drawSector(sector);
     });
@@ -96,6 +98,10 @@ export default function App() {
       // Handle zoom
       if (keys.current['+']) mapRenderer.zoomIn();
       if (keys.current['-']) mapRenderer.zoomOut();
+      if (keys.current['?']) {
+        helpOverlay.toggle();
+        keys.current['?'] = false; // Prevent continuous toggling
+      }
 
       // Handle movement
       const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
