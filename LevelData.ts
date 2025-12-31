@@ -111,6 +111,76 @@ export function updatePlayerSector(x: number, z: number): void {
   playerSector = findPlayerSector(x, z);
 }
 
+// Function to add new sector sharing the current wall
+export function addSector(vertexCount: number): void {
+  if (playerSector < 0 || playerSector >= LevelData.length || playerSectorWall < 0) {
+    return;
+  }
+  
+  const currentSector = LevelData[playerSector];
+  const nextWallIndex = (playerSectorWall + 1) % currentSector.vertices.length;
+  const v1 = currentSector.vertices[playerSectorWall];
+  const v2 = currentSector.vertices[nextWallIndex];
+  
+  // Calculate wall direction and perpendicular
+  const wallDx = v2.x - v1.x;
+  const wallDy = v2.y - v1.y;
+  const perpX = -wallDy; // Perpendicular to wall
+  const perpY = wallDx;
+  const perpLength = Math.sqrt(perpX * perpX + perpY * perpY);
+  const normPerpX = perpX / perpLength;
+  const normPerpY = perpY / perpLength;
+  
+  // Create vertices for new sector
+  const vertices = [];
+  const walls = [];
+  
+  // Add shared wall vertices (reversed order for counter-clockwise)
+  vertices.push({ x: v2.x, y: v2.y });
+  vertices.push({ x: v1.x, y: v1.y });
+  
+  // Add remaining vertices in a regular polygon pattern
+  const centerX = (v1.x + v2.x) / 2 + normPerpX * 2;
+  const centerY = (v1.y + v2.y) / 2 + normPerpY * 2;
+  const radius = 2;
+  
+  for (let i = 2; i < vertexCount; i++) {
+    const angle = (Math.PI * 2 * (i - 2)) / (vertexCount - 2);
+    vertices.push({
+      x: centerX + Math.cos(angle) * radius,
+      y: centerY + Math.sin(angle) * radius
+    });
+  }
+  
+  // Create walls
+  for (let i = 0; i < vertexCount; i++) {
+    if (i === 0) {
+      // Shared wall - make it a portal
+      walls.push({ bottomHeight: currentSector.floorHeight, topHeight: currentSector.ceilingHeight, textureId: 1 });
+    } else {
+      // Other walls - solid
+      walls.push({ bottomHeight: -1, topHeight: -1, textureId: 1 });
+    }
+  }
+  
+  // Create new sector
+  const newSector: LevelSector = {
+    floorHeight: currentSector.floorHeight,
+    ceilingHeight: currentSector.ceilingHeight,
+    floorTextureId: 1,
+    ceilingTextureId: 2,
+    brightness: 0.8,
+    vertices,
+    walls
+  };
+  
+  LevelData.push(newSector);
+  
+  // Make the current wall a portal too
+  currentSector.walls[playerSectorWall].bottomHeight = currentSector.floorHeight;
+  currentSector.walls[playerSectorWall].topHeight = currentSector.ceilingHeight;
+}
+
 // Global level data array
 export const LevelData: LevelSector[] = [
   {

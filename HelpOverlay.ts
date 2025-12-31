@@ -24,6 +24,13 @@ export class HelpOverlay {
       <div>NUM -  : Zoom Out</div>
       <div>M      : Toggle Map Mode</div>
       <br>
+      <div><strong>Map Edit:</strong></div>
+      <div>1      : Toggle Wall</div>
+      <div>3      : Add Triangle Sector</div>
+      <div>4      : Add Square Sector</div>
+      <div>5      : Add Pentagon Sector</div>
+      <div>6      : Add Hexagon Sector</div>
+      <br>
       <div><strong>Movement:</strong></div>
       <div>W      : Move Forward</div>
       <div>S      : Move Backward</div>
@@ -34,7 +41,6 @@ export class HelpOverlay {
       <div>↑      : Look Up</div>
       <div>↓      : Look Down</div>
       <div>NUM 0  : Reset View</div>
-      <div>1      : Toggle Wall</div>
       <br>
       <div>?      : Toggle Help</div>
     `;
