@@ -208,6 +208,38 @@ export function toggleCollision(): void {
   collisionEnabled = !collisionEnabled;
 }
 
+// Function to adjust wall bottom height
+export function adjustWallBottomHeight(increase: boolean): void {
+  if (playerSector < 0 || playerSector >= LevelData.length || playerSectorWall < 0) {
+    return;
+  }
+  
+  const sector = LevelData[playerSector];
+  const wall = sector.walls[playerSectorWall];
+  
+  if (increase) {
+    wall.bottomHeight = Math.min(wall.bottomHeight + 0.1, sector.ceilingHeight - wall.topHeight - 0.1);
+  } else {
+    wall.bottomHeight = Math.max(wall.bottomHeight - 0.1, 0.0);
+  }
+}
+
+// Function to adjust wall top height
+export function adjustWallTopHeight(increase: boolean): void {
+  if (playerSector < 0 || playerSector >= LevelData.length || playerSectorWall < 0) {
+    return;
+  }
+  
+  const sector = LevelData[playerSector];
+  const wall = sector.walls[playerSectorWall];
+  
+  if (increase) {
+    wall.topHeight = Math.min(wall.topHeight + 0.1, sector.ceilingHeight - sector.floorHeight - wall.bottomHeight - 0.1);
+  } else {
+    wall.topHeight = Math.max(wall.topHeight - 0.1, 0.0);
+  }
+}
+
 // Function to add new sector sharing the current wall
 export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: number): void {
   if (playerSector < 0 || playerSector >= LevelData.length || playerSectorWall < 0) {

@@ -258,12 +258,22 @@ export class MapRenderer {
     this.ctx.fillText(
       `X: ${camera.position.x.toFixed(1)}   Z: ${camera.position.z.toFixed(1)}`,
       5,
-      this.canvas.height - 20
+      this.canvas.height - 35
     );
     this.ctx.fillText(
       `Sector: ${playerSector === -1 ? 'outside' : playerSector}`,
       5,
-      this.canvas.height - 5
+      this.canvas.height - 20
     );
+    
+    // Draw wall height information for selected wall
+    if (playerSector >= 0 && playerSectorWall >= 0) {
+      const wall = LevelData[playerSector].walls[playerSectorWall];
+      this.ctx.fillText(
+        `Wall: B:${wall.bottomHeight.toFixed(1)} T:${wall.topHeight.toFixed(1)}`,
+        5,
+        this.canvas.height - 5
+      );
+    }
   }
 }
