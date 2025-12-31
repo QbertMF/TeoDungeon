@@ -116,6 +116,26 @@ export function updatePlayerSector(x: number, z: number): void {
   playerSector = findPlayerSector(x, z);
 }
 
+// Function to check collision with a single wall
+function checkSingleWallCollision(x: number, z: number, v1: {x: number, y: number}, v2: {x: number, y: number}, wall: {bottomHeight: number, topHeight: number}): boolean {
+  if ((wall.bottomHeight < wallHeightThreshold) && (wall.bottomHeight >= 0.0)) return false;
+  
+  const wallDx = v2.x - v1.x;
+  const wallDy = v2.y - v1.y;
+  const wallLength = Math.sqrt(wallDx * wallDx + wallDy * wallDy);
+  const wallNormX = wallDx / wallLength;
+  const wallNormY = wallDy / wallLength;
+  const perpX = -wallNormY;
+  const perpY = wallNormX;
+  
+  const toPointX = x - v1.x;
+  const toPointY = z - v1.y;
+  const distanceToLine = Math.abs(toPointX * perpX + toPointY * perpY);
+  const projectionOnWall = toPointX * wallNormX + toPointY * wallNormY;
+  
+  return projectionOnWall >= 0 && projectionOnWall <= wallLength && distanceToLine < playerRadius;
+}
+
 // Function to check collision and reflect movement
 export function checkCollision(currentX: number, currentZ: number, newX: number, newZ: number): { x: number; z: number } {
   if (!collisionEnabled) return { x: newX, z: newZ };
@@ -151,17 +171,31 @@ export function checkCollision(currentX: number, currentZ: number, newX: number,
       
       // Check collision
       if (distanceToLine < playerRadius) {
-        // Calculate reflection
+        // Calculate movement along the wall
         const movementX = newX - currentX;
         const movementZ = newZ - currentZ;
-        const dotProduct = movementX * perpX + movementZ * perpY;
-        const reflectedX = movementX - 2 * dotProduct * perpX;
-        const reflectedZ = movementZ - 2 * dotProduct * perpY;
+        const dotProduct = movementX * wallNormX + movementZ * wallNormY;
+        const slideX = currentX + dotProduct * wallNormX;
+        const slideZ = currentZ + dotProduct * wallNormY;
         
-        return {
-          x: currentX + reflectedX,
-          z: currentZ + reflectedZ
-        };
+        // Check if sliding position would collide with any other wall
+        for (const otherSector of LevelData) {
+          for (let j = 0; j < otherSector.vertices.length; j++) {
+            const nextJ = (j + 1) % otherSector.vertices.length;
+            const otherV1 = otherSector.vertices[j];
+            const otherV2 = otherSector.vertices[nextJ];
+            const otherWall = otherSector.walls[j];
+            
+            // Skip the current wall
+            if (otherSector === sector && j === i) continue;
+            
+            if (checkSingleWallCollision(slideX, slideZ, otherV1, otherV2, otherWall)) {
+              return { x: currentX, z: currentZ };
+            }
+          }
+        }
+        
+        return { x: slideX, z: slideZ };
       }
     }
   }
