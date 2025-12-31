@@ -36,7 +36,7 @@ export const LevelData: LevelSector[] = [
     walls: [
       { bottomHeight: 1, topHeight: 0.5, textureId: 9 },
       { bottomHeight: 1, topHeight: 0.5, textureId: 10 },
-      { bottomHeight: 1, topHeight: 0.5, textureId: 11 },
+      { bottomHeight: 0, topHeight: 0.5, textureId: 11 },
       { bottomHeight: 1, topHeight: 0.5, textureId: 12 }
     ]
   },
@@ -59,6 +59,23 @@ export const LevelData: LevelSector[] = [
       { bottomHeight: 1, topHeight: 0.5, textureId: 17 },
       { bottomHeight: 1, topHeight: 0.5, textureId: 18 },
       { bottomHeight: 1, topHeight: 0.5, textureId: 19 }
+    ]
+  },
+  {
+    floorHeight: 0,
+    ceilingHeight: 3,
+    floorTextureId: 20,
+    ceilingTextureId: 21,
+    brightness: 0.5,
+    vertices: [
+      { x: -2, y: 6 },
+      { x: 2, y: 6 },
+      { x: 0, y: 9 }
+    ],
+    walls: [
+      { bottomHeight: 0, topHeight: 0.5, textureId: 22 },
+      { bottomHeight: -1, topHeight: -1, textureId: 23 },
+      { bottomHeight: -1, topHeight: -1, textureId: 24 }
     ]
   }
 ];

@@ -13,3 +13,16 @@ npm start # you can open iOS, Android, or web from here, or run them directly wi
 - npm run ios # requires an iOS device or macOS for access to an iOS simulator
 - npm run web
 
+# ToDo
+## Z fighting 
+because we draw double sided walls on same location for adjacent sectors.
+Signle sided polygons would be better.
+
+## character movement
+
+## Map editor
+
+## switch map modes
+use a mode to display walls and portals only
+
+
