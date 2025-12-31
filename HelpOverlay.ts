@@ -41,6 +41,7 @@ export class HelpOverlay {
       <div>↑      : Look Up</div>
       <div>↓      : Look Down</div>
       <div>NUM 0  : Reset View</div>
+      <div>C      : Toggle Collision</div>
       <br>
       <div>?      : Toggle Help</div>
     `;

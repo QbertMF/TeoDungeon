@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { HelpOverlay } from './HelpOverlay';
-import { LevelData, updatePlayerSector, findLookingAtWall, toggleWall, addSector, checkCollision } from './LevelData';
+import { LevelData, updatePlayerSector, findLookingAtWall, toggleWall, addSector, checkCollision, toggleCollision } from './LevelData';
 import { Asset } from 'expo-asset';
 
 export default function App() {
@@ -138,6 +138,10 @@ export default function App() {
       if (keys.current['?']) {
         helpOverlay.toggle();
         keys.current['?'] = false; // Prevent continuous toggling
+      }
+      if (keys.current['c']) {
+        toggleCollision();
+        keys.current['c'] = false; // Prevent continuous toggling
       }
 
       // Handle movement

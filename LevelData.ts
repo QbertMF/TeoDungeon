@@ -9,6 +9,7 @@ export let playerSectorWall: number = -1;
 // Player collision settings
 export const playerRadius = 0.3;
 const wallHeightThreshold = 0.5;
+export let collisionEnabled = true;
 
 // Function to find line-line intersection
 function lineIntersection(
@@ -117,6 +118,8 @@ export function updatePlayerSector(x: number, z: number): void {
 
 // Function to check collision and reflect movement
 export function checkCollision(currentX: number, currentZ: number, newX: number, newZ: number): { x: number; z: number } {
+  if (!collisionEnabled) return { x: newX, z: newZ };
+  
   // Check all sectors for wall collisions
   for (const sector of LevelData) {
     for (let i = 0; i < sector.vertices.length; i++) {
@@ -164,6 +167,11 @@ export function checkCollision(currentX: number, currentZ: number, newX: number,
   }
   
   return { x: newX, z: newZ };
+}
+
+// Function to toggle collision
+export function toggleCollision(): void {
+  collisionEnabled = !collisionEnabled;
 }
 
 // Function to add new sector sharing the current wall
