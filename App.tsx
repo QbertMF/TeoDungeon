@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { LevelData } from './LevelData';
+import { Asset } from 'expo-asset';
 
 export default function App() {
   const raf = useRef<number | null>(null);
@@ -55,6 +56,20 @@ export default function App() {
     // Ambient light for overall brightness
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
+
+    // Load skybox
+    const textureLoader = new THREE.TextureLoader();
+    const asset = Asset.fromModule(require('./assets/Tropenschauhaus.jpg'));
+    await asset.downloadAsync();
+    
+    textureLoader.load(asset.localUri || asset.uri, (texture) => {
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      texture.colorSpace = THREE.SRGBColorSpace;
+      scene.background = texture;
+      console.log('Skybox loaded successfully');
+    }, undefined, (error) => {
+      console.error('Error loading skybox:', error);
+    });
 
     // Draw all sectors from LevelData
     const levelRenderer = new LevelRenderer(scene);

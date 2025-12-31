@@ -51,7 +51,7 @@ export class LevelRenderer {
     const floorGeometry = new THREE.ShapeGeometry(floorShape);
     const floorMaterial = this.getMaterial(sector.floorTextureId, sector.brightness);
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-    floor.rotation.x = -Math.PI / 2;
+    floor.rotation.x = Math.PI / 2;
     floor.position.set(floorCenter.x, sector.floorHeight, floorCenter.y);
     group.add(floor);
 
@@ -161,8 +161,8 @@ export class LevelRenderer {
     const centerZ = (v1.y + v2.y) / 2;
     const centerY = (bottomY + topY) / 2;
     
-    // Calculate rotation angle (flip for inward facing)
-    const angle = Math.atan2(v2.y - v1.y, v2.x - v1.x) + Math.PI;
+    // Calculate rotation angle (v1.y and v2.y map to Z coordinates)
+    const angle = -Math.atan2(v2.y - v1.y, v2.x - v1.x) + Math.PI;
     
     // Apply transformations
     geometry.rotateY(angle);
