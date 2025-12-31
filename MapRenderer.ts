@@ -4,6 +4,7 @@ import * as THREE from 'three';
 export class MapRenderer {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
+  private scale: number = 20;
 
   constructor() {
     this.canvas = document.createElement('canvas');
@@ -34,13 +35,20 @@ export class MapRenderer {
     return colors[textureId % colors.length];
   }
 
+  zoomIn(): void {
+    this.scale = Math.min(this.scale * 1.2, 100);
+  }
+
+  zoomOut(): void {
+    this.scale = Math.max(this.scale / 1.2, 5);
+  }
+
   drawMap(camera: THREE.Camera): void {
     // Clear canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
     const centerX = this.canvas.width / 2;
     const centerY = this.canvas.height / 2;
-    const scale = 20;
 
     LevelData.forEach(sector => {
       // Draw walls individually with different colors
@@ -50,10 +58,10 @@ export class MapRenderer {
         const v2 = sector.vertices[nextI];
         const wall = sector.walls[i];
         
-        const x1 = centerX + (v1.x - camera.position.x) * scale;
-        const y1 = centerY + (v1.y - camera.position.z) * scale;
-        const x2 = centerX + (v2.x - camera.position.x) * scale;
-        const y2 = centerY + (v2.y - camera.position.z) * scale;
+        const x1 = centerX + (v1.x - camera.position.x) * this.scale;
+        const y1 = centerY + (v1.y - camera.position.z) * this.scale;
+        const x2 = centerX + (v2.x - camera.position.x) * this.scale;
+        const y2 = centerY + (v2.y - camera.position.z) * this.scale;
         
         // Set color based on texture ID
         this.ctx.strokeStyle = this.getColorFromTextureId(wall.textureId);

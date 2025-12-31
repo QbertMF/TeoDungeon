@@ -93,6 +93,10 @@ export default function App() {
       camera.rotation.y = yaw;
       camera.rotation.x = pitch;
 
+      // Handle zoom
+      if (keys.current['+']) mapRenderer.zoomIn();
+      if (keys.current['-']) mapRenderer.zoomOut();
+
       // Handle movement
       const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
       const right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
