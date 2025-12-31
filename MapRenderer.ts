@@ -51,7 +51,7 @@ export class MapRenderer {
     const centerX = this.canvas.width / 2;
     const centerY = this.canvas.height / 2;
 
-    LevelData.forEach(sector => {
+    LevelData.forEach((sector, index) => {
       // Draw walls individually with different colors
       for (let i = 0; i < sector.vertices.length; i++) {
         const nextI = (i + 1) % sector.vertices.length;
@@ -72,6 +72,23 @@ export class MapRenderer {
         this.ctx.moveTo(x1, y1);
         this.ctx.lineTo(x2, y2);
         this.ctx.stroke();
+      }
+      
+      // Highlight current player sector
+      if (index === playerSector) {
+        this.ctx.fillStyle = 'rgba(255, 255, 0, 0.3)';
+        this.ctx.beginPath();
+        sector.vertices.forEach((vertex, i) => {
+          const x = centerX + (vertex.x - camera.position.x) * this.scale;
+          const y = centerY + (vertex.y - camera.position.z) * this.scale;
+          if (i === 0) {
+            this.ctx.moveTo(x, y);
+          } else {
+            this.ctx.lineTo(x, y);
+          }
+        });
+        this.ctx.closePath();
+        this.ctx.fill();
       }
     });
 
