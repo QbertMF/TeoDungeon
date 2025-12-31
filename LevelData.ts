@@ -6,6 +6,10 @@ export let playerSector: number = 0;
 // Global player sector wall index
 export let playerSectorWall: number = -1;
 
+// Player collision settings
+export const playerRadius = 0.3;
+const wallHeightThreshold = 0.5;
+
 // Function to find line-line intersection
 function lineIntersection(
   x1: number, y1: number, x2: number, y2: number,
@@ -109,6 +113,57 @@ export function toggleWall(): void {
 // Function to update player sector
 export function updatePlayerSector(x: number, z: number): void {
   playerSector = findPlayerSector(x, z);
+}
+
+// Function to check collision and reflect movement
+export function checkCollision(currentX: number, currentZ: number, newX: number, newZ: number): { x: number; z: number } {
+  // Check all sectors for wall collisions
+  for (const sector of LevelData) {
+    for (let i = 0; i < sector.vertices.length; i++) {
+      const nextI = (i + 1) % sector.vertices.length;
+      const v1 = sector.vertices[i];
+      const v2 = sector.vertices[nextI];
+      const wall = sector.walls[i];
+      
+      // Skip if wall can be passed through
+      if ((wall.bottomHeight < wallHeightThreshold) && (wall.bottomHeight >= 0.0))  continue;
+      
+      // Calculate distance from new position to wall line
+      const wallDx = v2.x - v1.x;
+      const wallDy = v2.y - v1.y;
+      const wallLength = Math.sqrt(wallDx * wallDx + wallDy * wallDy);
+      const wallNormX = wallDx / wallLength;
+      const wallNormY = wallDy / wallLength;
+      const perpX = -wallNormY;
+      const perpY = wallNormX;
+      
+      // Point to line distance
+      const toPointX = newX - v1.x;
+      const toPointY = newZ - v1.y;
+      const distanceToLine = Math.abs(toPointX * perpX + toPointY * perpY);
+      
+      // Check if within wall segment bounds
+      const projectionOnWall = toPointX * wallNormX + toPointY * wallNormY;
+      if (projectionOnWall < 0 || projectionOnWall > wallLength) continue;
+      
+      // Check collision
+      if (distanceToLine < playerRadius) {
+        // Calculate reflection
+        const movementX = newX - currentX;
+        const movementZ = newZ - currentZ;
+        const dotProduct = movementX * perpX + movementZ * perpY;
+        const reflectedX = movementX - 2 * dotProduct * perpX;
+        const reflectedZ = movementZ - 2 * dotProduct * perpY;
+        
+        return {
+          x: currentX + reflectedX,
+          z: currentZ + reflectedZ
+        };
+      }
+    }
+  }
+  
+  return { x: newX, z: newZ };
 }
 
 // Function to add new sector sharing the current wall

@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { HelpOverlay } from './HelpOverlay';
-import { LevelData, updatePlayerSector, findLookingAtWall, toggleWall, addSector } from './LevelData';
+import { LevelData, updatePlayerSector, findLookingAtWall, toggleWall, addSector, checkCollision } from './LevelData';
 import { Asset } from 'expo-asset';
 
 export default function App() {
@@ -143,11 +143,31 @@ export default function App() {
       // Handle movement
       const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
       const right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
+      
+      let newX = camera.position.x;
+      let newZ = camera.position.z;
 
-      if (keys.current['w']) camera.position.add(forward.multiplyScalar(moveSpeed));
-      if (keys.current['s']) camera.position.add(forward.multiplyScalar(-moveSpeed));
-      if (keys.current['a']) camera.position.add(right.multiplyScalar(-moveSpeed));
-      if (keys.current['d']) camera.position.add(right.multiplyScalar(moveSpeed));
+      if (keys.current['w']) {
+        newX += forward.x * moveSpeed;
+        newZ += forward.z * moveSpeed;
+      }
+      if (keys.current['s']) {
+        newX -= forward.x * moveSpeed;
+        newZ -= forward.z * moveSpeed;
+      }
+      if (keys.current['a']) {
+        newX -= right.x * moveSpeed;
+        newZ -= right.z * moveSpeed;
+      }
+      if (keys.current['d']) {
+        newX += right.x * moveSpeed;
+        newZ += right.z * moveSpeed;
+      }
+      
+      // Apply collision detection
+      const collisionResult = checkCollision(camera.position.x, camera.position.z, newX, newZ);
+      camera.position.x = collisionResult.x;
+      camera.position.z = collisionResult.z;
 
       // Update player sector after movement
       updatePlayerSector(camera.position.x, camera.position.z);
