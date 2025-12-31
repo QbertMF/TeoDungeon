@@ -32,6 +32,7 @@ export class HelpOverlay {
       <div>→      : Turn Right</div>
       <div>↑      : Look Up</div>
       <div>↓      : Look Down</div>
+      <div>NUM 0  : Reset View</div>
       <br>
       <div>?      : Toggle Help</div>
     `;

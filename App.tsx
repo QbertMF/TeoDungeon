@@ -98,6 +98,10 @@ export default function App() {
       // Handle zoom
       if (keys.current['+']) mapRenderer.zoomIn();
       if (keys.current['-']) mapRenderer.zoomOut();
+      if (keys.current['0']) {
+        pitch = 0;
+        camera.rotation.x = pitch;
+      }
       if (keys.current['?']) {
         helpOverlay.toggle();
         keys.current['?'] = false; // Prevent continuous toggling
