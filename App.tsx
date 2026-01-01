@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { HelpOverlay } from './HelpOverlay';
-import { LevelData, playerSector, updatePlayerSector, findLookingAtWall, toggleWall, addSector, deleteSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight, printSectors } from './LevelData';
+import { LevelData, playerSector, playerSectorWall, updatePlayerSector, findLookingAtWall, toggleWall, addSector, deleteSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight, printSectors } from './LevelData';
 import { Asset } from 'expo-asset';
 
 export default function App() {
@@ -103,6 +103,30 @@ export default function App() {
           yaw += Math.PI / 4; // Turn 45 degrees counter-clockwise
           yaw = Math.round(yaw / (Math.PI / 4)) * (Math.PI / 4); // Snap to 45-degree increments
           keys.current['arrowleft'] = false;
+        }
+      } else if (keys.current['alt']) {
+        // Position perpendicular to current wall
+        if ((keys.current['arrowup'] || keys.current['arrowdown'] || keys.current['arrowleft'] || keys.current['arrowright']) && 
+            playerSector >= 0 && playerSectorWall >= 0) {
+          const sector = LevelData[playerSector];
+          const nextWallIndex = (playerSectorWall + 1) % sector.vertices.length;
+          const v1 = sector.vertices[playerSectorWall];
+          const v2 = sector.vertices[nextWallIndex];
+          
+          // Calculate wall direction and perpendicular
+          const wallDx = v2.x - v1.x;
+          const wallDy = v2.y - v1.y;
+          const wallLength = Math.sqrt(wallDx * wallDx + wallDy * wallDy);
+          const perpX = -wallDy / wallLength;
+          const perpY = wallDx / wallLength;
+          
+          // Set camera to look perpendicular to wall (toward the wall)
+          yaw = -Math.atan2(perpX, -perpY) + Math.PI;
+          
+          keys.current['arrowup'] = false;
+          keys.current['arrowdown'] = false;
+          keys.current['arrowleft'] = false;
+          keys.current['arrowright'] = false;
         }
       } else {
         // Rotation when shift is not held
