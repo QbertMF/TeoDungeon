@@ -82,7 +82,7 @@ export class MapRenderer {
   }
 
   private snapToGrid(value: number): number {
-    return Math.round(value / 0.2) * 0.2;
+    return Math.round(value * 100) / 100;
   }
 
   private findVertexAt(worldX: number, worldY: number): { sectorIndex: number; vertexIndex: number } | null {
