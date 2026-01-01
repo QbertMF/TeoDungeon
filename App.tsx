@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { HelpOverlay } from './HelpOverlay';
-import { LevelData, updatePlayerSector, findLookingAtWall, toggleWall, addSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight, printSectors } from './LevelData';
+import { LevelData, playerSector, updatePlayerSector, findLookingAtWall, toggleWall, addSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight, printSectors } from './LevelData';
 import { Asset } from 'expo-asset';
 
 export default function App() {
@@ -84,11 +84,22 @@ export default function App() {
 
     // Render loop
     const render = () => {
-      // Handle rotation
-      if (keys.current['arrowleft']) yaw += rotateSpeed;
-      if (keys.current['arrowright']) yaw -= rotateSpeed;
-      if (keys.current['arrowup']) pitch = Math.max(pitch - rotateSpeed, -Math.PI / 2);
-      if (keys.current['arrowdown']) pitch = Math.min(pitch + rotateSpeed, Math.PI / 2);
+      // Handle rotation and vertical movement
+      if (keys.current['shift']) {
+        // Vertical movement when shift is held
+        if (keys.current['arrowup']) {
+          camera.position.y += moveSpeed;
+        }
+        if (keys.current['arrowdown']) {
+          camera.position.y -= moveSpeed;
+        }
+      } else {
+        // Rotation when shift is not held
+        if (keys.current['arrowleft']) yaw += rotateSpeed;
+        if (keys.current['arrowright']) yaw -= rotateSpeed;
+        if (keys.current['arrowup']) pitch = Math.max(pitch - rotateSpeed, -Math.PI / 2);
+        if (keys.current['arrowdown']) pitch = Math.min(pitch + rotateSpeed, Math.PI / 2);
+      }
       
       // Apply rotations in correct order
       camera.rotation.order = 'YXZ';
@@ -101,6 +112,9 @@ export default function App() {
       if (keys.current['0']) {
         pitch = 0;
         camera.rotation.x = pitch;
+        if (playerSector >= 0 && playerSector < LevelData.length) {
+          camera.position.y = LevelData[playerSector].floorHeight + 1.5;
+        }
       }
       if (keys.current['1']) {
         toggleWall();
@@ -192,6 +206,7 @@ export default function App() {
         newZ += right.z * moveSpeed;
       }
       
+
       // Apply collision detection
       const collisionResult = checkCollision(camera.position.x, camera.position.z, newX, newZ);
       camera.position.x = collisionResult.x;

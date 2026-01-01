@@ -47,6 +47,8 @@ export class HelpOverlay {
       <div>→      : Turn Right</div>
       <div>↑      : Look Up</div>
       <div>↓      : Look Down</div>
+      <div>Shift+↑: Move Up</div>
+      <div>Shift+↓: Move Down</div>
       <div>NUM 0  : Reset View</div>
       <div>C      : Toggle Collision</div>
       <br>
