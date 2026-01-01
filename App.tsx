@@ -66,6 +66,17 @@ export default function App() {
     fpsElement.textContent = 'FPS: 0';
     document.body.appendChild(fpsElement);
 
+    const sectorElement = document.createElement('div');
+    sectorElement.style.position = 'absolute';
+    sectorElement.style.top = '30px';
+    sectorElement.style.left = '10px';
+    sectorElement.style.color = 'white';
+    sectorElement.style.fontFamily = 'monospace';
+    sectorElement.style.fontSize = '16px';
+    sectorElement.style.zIndex = '2000';
+    sectorElement.textContent = `Sectors: ${LevelData.length}`;
+    document.body.appendChild(sectorElement);
+
     // Light
     const light = new THREE.DirectionalLight(0xffffff, 2);
     light.position.set(1, 1, 1);
@@ -105,6 +116,7 @@ export default function App() {
       if (currentTime - lastTime >= 1000) {
         fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
         fpsElement.textContent = `FPS: ${fps}`;
+        sectorElement.textContent = `Sectors: ${LevelData.length}`;
         frameCount = 0;
         lastTime = currentTime;
       }

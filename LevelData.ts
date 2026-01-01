@@ -385,104 +385,1192 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
 // Global level data array
 export const LevelData: LevelSector[] = [
   {
-    floorHeight: 0,
-    ceilingHeight: 3,
-    floorTextureId: 1,
-    ceilingTextureId: 2,
-    brightness: 0.8,
-    vertices: [
-      { x: -2, y: -2 },
-      { x: 2, y: -2 },
-      { x: 2, y: 2 },
-      { x: -2, y: 2 }
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 1,
+    "ceilingTextureId": 2,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -2,
+        "y": -2
+      },
+      {
+        "x": 2,
+        "y": -2
+      },
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": -2,
+        "y": 2
+      }
     ],
-    walls: [
-      { bottomHeight: 0.0, topHeight: 1.0, textureId: 3 },
-      { bottomHeight: -1, topHeight: -1, textureId: 4 },
-      { bottomHeight: 0.0, topHeight: 1.0, textureId: 5 },
-      { bottomHeight: 0.0, topHeight: 1.0, textureId: 6 }
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 1,
+        "textureId": 3
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 4
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 1,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 1,
+        "textureId": 6
+      }
     ],
-    drawCount: 0
+    "drawCount": 0
   },
   {
-    floorHeight: 0,
-    ceilingHeight: 3,
-    floorTextureId: 7,
-    ceilingTextureId: 8,
-    brightness: 0.7,
-    vertices: [
-      { x: -2, y: 2 },
-      { x: 2, y: 2 },
-      { x: 2, y: 6 },
-      { x: -2, y: 6 }
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 7,
+    "ceilingTextureId": 8,
+    "brightness": 0.7,
+    "vertices": [
+      {
+        "x": -2,
+        "y": 2
+      },
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 2,
+        "y": 6
+      },
+      {
+        "x": -2,
+        "y": 6
+      }
     ],
-    walls: [
-      { bottomHeight: 1, topHeight: 0.5, textureId: 9 },
-      { bottomHeight: 1, topHeight: 0.5, textureId: 10 },
-      { bottomHeight: 0, topHeight: 0.5, textureId: 11 },
-      { bottomHeight: 1, topHeight: 0.5, textureId: 12 }
+    "walls": [
+      {
+        "bottomHeight": 1,
+        "topHeight": 0.5,
+        "textureId": 9
+      },
+      {
+        "bottomHeight": 1,
+        "topHeight": 0.5,
+        "textureId": 10
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0.5,
+        "textureId": 11
+      },
+      {
+        "bottomHeight": 1,
+        "topHeight": 0.5,
+        "textureId": 12
+      }
     ],
-    drawCount: 0
+    "drawCount": 0
   },
   {
-    floorHeight: 0,
-    ceilingHeight: 3,
-    floorTextureId: 13,
-    ceilingTextureId: 14,
-    brightness: 0.6,
-    vertices: [
-      { x: 2, y: 2 },
-      { x: 2, y: 6 },
-      { x: 6, y: 7 },
-      { x: 7, y: 4 },
-      { x: 5, y: 1 }
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 13,
+    "ceilingTextureId": 14,
+    "brightness": 0.6,
+    "vertices": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 2,
+        "y": 6
+      },
+      {
+        "x": 6,
+        "y": 7
+      },
+      {
+        "x": 7,
+        "y": 4
+      },
+      {
+        "x": 5,
+        "y": 1
+      }
     ],
-    walls: [
-      { bottomHeight: 1, topHeight: 0.5, textureId: 15 },
-      { bottomHeight: 1, topHeight: 0.5, textureId: 16 },
-      { bottomHeight: 1, topHeight: 0.5, textureId: 17 },
-      { bottomHeight: 1, topHeight: 0.5, textureId: 18 },
-      { bottomHeight: 1, topHeight: 0.5, textureId: 19 }
+    "walls": [
+      {
+        "bottomHeight": 1,
+        "topHeight": 0.5,
+        "textureId": 15
+      },
+      {
+        "bottomHeight": 1,
+        "topHeight": 0.5,
+        "textureId": 16
+      },
+      {
+        "bottomHeight": 1,
+        "topHeight": 0.5,
+        "textureId": 17
+      },
+      {
+        "bottomHeight": 1,
+        "topHeight": 0.5,
+        "textureId": 18
+      },
+      {
+        "bottomHeight": 1,
+        "topHeight": 0.5,
+        "textureId": 19
+      }
     ],
-    drawCount: 0
+    "drawCount": 0
   },
   {
-    floorHeight: 0,
-    ceilingHeight: 3,
-    floorTextureId: 20,
-    ceilingTextureId: 21,
-    brightness: 0.5,
-    vertices: [
-      { x: -2, y: 6 },
-      { x: 2, y: 6 },
-      { x: 0, y: 9 }
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 20,
+    "ceilingTextureId": 21,
+    "brightness": 0.5,
+    "vertices": [
+      {
+        "x": -2,
+        "y": 6
+      },
+      {
+        "x": 2,
+        "y": 6
+      },
+      {
+        "x": 0,
+        "y": 9
+      }
     ],
-    walls: [
-      { bottomHeight: 0, topHeight: 0.5, textureId: 22 },
-      { bottomHeight: 0.0, topHeight: 0.5, textureId: 23 },
-      { bottomHeight: -1, topHeight: -1, textureId: 24 }
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0.5,
+        "textureId": 22
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0.5,
+        "textureId": 23
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 24
+      }
     ],
-    drawCount: 0
+    "drawCount": 0
   },
   {
-    floorHeight: 0,
-    ceilingHeight: 3,
-    floorTextureId: 25,
-    ceilingTextureId: 26,
-    brightness: 0.9,
-    vertices: [
-      { x: -2, y: -2 },
-      { x: -2-5, y: -8 },
-      { x: 2-5, y: -8 },
-      { x: 2, y: -2 }
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 25,
+    "ceilingTextureId": 26,
+    "brightness": 0.9,
+    "vertices": [
+      {
+        "x": -2,
+        "y": -2
+      },
+      {
+        "x": -7,
+        "y": -8
+      },
+      {
+        "x": -3,
+        "y": -8
+      },
+      {
+        "x": 2,
+        "y": -2
+      }
     ],
-    walls: [
-      { bottomHeight: 1, topHeight: 0.5, textureId: 27 },
-      { bottomHeight: 1, topHeight: 0.5, textureId: 28 },
-      { bottomHeight: 1, topHeight: 0.5, textureId: 29 },
-      { bottomHeight: 0.0, topHeight: 1.0, textureId: 30 }
+    "walls": [
+      {
+        "bottomHeight": 1,
+        "topHeight": 0.5,
+        "textureId": 27
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 28
+      },
+      {
+        "bottomHeight": 1,
+        "topHeight": 0.5,
+        "textureId": 29
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 1,
+        "textureId": 30
+      }
     ],
-    drawCount: 0
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 3,
+    "ceilingTextureId": 1,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -3,
+        "y": -8
+      },
+      {
+        "x": -7,
+        "y": -8
+      },
+      {
+        "x": -6.59,
+        "y": -10.2
+      },
+      {
+        "x": -5.37,
+        "y": -11.47
+      },
+      {
+        "x": -3.78,
+        "y": -10.71
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 7
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 2
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 4
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 8,
+    "ceilingTextureId": 5,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -5.37,
+        "y": -11.47
+      },
+      {
+        "x": -6.59,
+        "y": -10.2
+      },
+      {
+        "x": -8.03,
+        "y": -11.59
+      },
+      {
+        "x": -6.81,
+        "y": -12.86
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 8
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 6
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 1
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 3,
+    "ceilingTextureId": 6,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -6.81,
+        "y": -12.86
+      },
+      {
+        "x": -8.03,
+        "y": -11.59
+      },
+      {
+        "x": -9.47,
+        "y": -12.98
+      },
+      {
+        "x": -8.25,
+        "y": -14.25
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 6
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 2
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 8
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 8
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 6,
+    "ceilingTextureId": 1,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -8.25,
+        "y": -14.25
+      },
+      {
+        "x": -9.47,
+        "y": -12.98
+      },
+      {
+        "x": -10.91,
+        "y": -14.37
+      },
+      {
+        "x": -9.69,
+        "y": -15.64
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 8
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 2
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 4
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 6
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 1,
+    "ceilingTextureId": 1,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -9.69,
+        "y": -15.64
+      },
+      {
+        "x": -10.91,
+        "y": -14.37
+      },
+      {
+        "x": -12.35,
+        "y": -15.76
+      },
+      {
+        "x": -11.13,
+        "y": -17.03
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 1
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 5,
+    "ceilingTextureId": 1,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -11.13,
+        "y": -17.03
+      },
+      {
+        "x": -12.35,
+        "y": -15.76
+      },
+      {
+        "x": -13.79,
+        "y": -17.15
+      },
+      {
+        "x": -12.57,
+        "y": -18.42
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 2
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 2
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 2
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 3,
+    "ceilingTextureId": 8,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -12.57,
+        "y": -18.42
+      },
+      {
+        "x": -13.79,
+        "y": -17.15
+      },
+      {
+        "x": -15.23,
+        "y": -18.54
+      },
+      {
+        "x": -14.01,
+        "y": -19.81
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 4
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 7
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 3
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 6,
+    "ceilingTextureId": 5,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -14.01,
+        "y": -19.81
+      },
+      {
+        "x": -15.23,
+        "y": -18.54
+      },
+      {
+        "x": -16.67,
+        "y": -19.93
+      },
+      {
+        "x": -15.45,
+        "y": -21.2
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 2
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 8
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 7,
+    "ceilingTextureId": 5,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -15.45,
+        "y": -21.2
+      },
+      {
+        "x": -16.67,
+        "y": -19.93
+      },
+      {
+        "x": -18.11,
+        "y": -21.32
+      },
+      {
+        "x": -16.89,
+        "y": -22.59
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 4
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 8
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 6
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 8,
+    "ceilingTextureId": 4,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -16.89,
+        "y": -22.59
+      },
+      {
+        "x": -18.11,
+        "y": -21.32
+      },
+      {
+        "x": -20.38,
+        "y": -22.93
+      },
+      {
+        "x": -19.78,
+        "y": -24.59
+      },
+      {
+        "x": -18.02,
+        "y": -24.52
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 2
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 3
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 2
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 6,
+    "ceilingTextureId": 2,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -16.89,
+        "y": -22.59
+      },
+      {
+        "x": -18.02,
+        "y": -24.52
+      },
+      {
+        "x": -16.28,
+        "y": -28.41
+      },
+      {
+        "x": -11.06,
+        "y": -30.57
+      },
+      {
+        "x": -7.28,
+        "y": -24.51
+      },
+      {
+        "x": -12.59,
+        "y": -21.88
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 8
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 4
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 7
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 8
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 4
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 3,
+    "ceilingTextureId": 3,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -9.69,
+        "y": -15.64
+      },
+      {
+        "x": -11.13,
+        "y": -17.03
+      },
+      {
+        "x": -9.74,
+        "y": -18.47
+      },
+      {
+        "x": -8.3,
+        "y": -17.08
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 6
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 3
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 1,
+    "ceilingTextureId": 6,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -8.3,
+        "y": -17.08
+      },
+      {
+        "x": -9.74,
+        "y": -18.47
+      },
+      {
+        "x": -8.35,
+        "y": -19.91
+      },
+      {
+        "x": -6.91,
+        "y": -18.52
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 8
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 2,
+    "ceilingTextureId": 6,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -6.91,
+        "y": -18.52
+      },
+      {
+        "x": -8.35,
+        "y": -19.91
+      },
+      {
+        "x": -6.96,
+        "y": -21.35
+      },
+      {
+        "x": -5.52,
+        "y": -19.96
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 3
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 7
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 4
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 6,
+    "ceilingTextureId": 5,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -5.52,
+        "y": -19.96
+      },
+      {
+        "x": -6.96,
+        "y": -21.35
+      },
+      {
+        "x": -5.57,
+        "y": -22.79
+      },
+      {
+        "x": -4.13,
+        "y": -21.4
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 2
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 8
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 6,
+    "ceilingTextureId": 8,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -4.13,
+        "y": -21.4
+      },
+      {
+        "x": -5.57,
+        "y": -22.79
+      },
+      {
+        "x": -4.18,
+        "y": -24.23
+      },
+      {
+        "x": -2.74,
+        "y": -22.84
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 2
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 6
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 4,
+    "ceilingTextureId": 3,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -2.74,
+        "y": -22.84
+      },
+      {
+        "x": -4.18,
+        "y": -24.23
+      },
+      {
+        "x": -2.79,
+        "y": -25.67
+      },
+      {
+        "x": -1.35,
+        "y": -24.28
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 3
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 3
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 4
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 1,
+    "ceilingTextureId": 2,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -2.79,
+        "y": -25.67
+      },
+      {
+        "x": -4.18,
+        "y": -24.23
+      },
+      {
+        "x": -5.62,
+        "y": -25.62
+      },
+      {
+        "x": -4.23,
+        "y": -27.06
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 6
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 5
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 4
+      }
+    ],
+    "drawCount": 0
+  },
+  {
+    "floorHeight": 0,
+    "ceilingHeight": 3,
+    "floorTextureId": 6,
+    "ceilingTextureId": 1,
+    "brightness": 0.8,
+    "vertices": [
+      {
+        "x": -4.23,
+        "y": -27.06
+      },
+      {
+        "x": -5.62,
+        "y": -25.62
+      },
+      {
+        "x": -7.28,
+        "y": -24.51
+      },
+      {
+        "x": -11.08,
+        "y": -30.59
+      }
+    ],
+    "walls": [
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 1
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 7
+      },
+      {
+        "bottomHeight": 0,
+        "topHeight": 0,
+        "textureId": 3
+      },
+      {
+        "bottomHeight": -1,
+        "topHeight": -1,
+        "textureId": 6
+      }
+    ],
+    "drawCount": 0
   }
 ];
 
