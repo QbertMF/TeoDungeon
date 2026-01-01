@@ -22,6 +22,8 @@ export class HelpOverlay {
       <div><strong>2D Map:</strong></div>
       <div>NUM +  : Zoom In</div>
       <div>NUM -  : Zoom Out</div>
+      <div>Shift+NUM + : Increase Map Size</div>
+      <div>Shift+NUM - : Decrease Map Size</div>
       <div>M      : Toggle Map Mode</div>
       <br>
       <div><strong>Map Edit:</strong></div>

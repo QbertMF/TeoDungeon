@@ -106,9 +106,18 @@ export default function App() {
       camera.rotation.y = yaw;
       camera.rotation.x = pitch;
 
-      // Handle zoom
-      if (keys.current['+']) mapRenderer.zoomIn();
-      if (keys.current['-']) mapRenderer.zoomOut();
+      // Handle zoom and map resize
+      if (keys.current['shift'] && keys.current['+']) {
+        mapRenderer.resizeMapUp();
+        keys.current['+'] = false;
+      } else if (keys.current['shift'] && keys.current['-']) {
+        mapRenderer.resizeMapDown();
+        keys.current['-'] = false;
+      } else if (keys.current['+']) {
+        mapRenderer.zoomIn();
+      } else if (keys.current['-']) {
+        mapRenderer.zoomOut();
+      }
       if (keys.current['0']) {
         pitch = 0;
         camera.rotation.x = pitch;

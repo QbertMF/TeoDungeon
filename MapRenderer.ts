@@ -51,6 +51,19 @@ export class MapRenderer {
     this.scale = Math.max(this.scale / 1.2, 5);
   }
 
+  resizeMapUp(): void {
+    const maxSize = Math.min(window.innerWidth, window.innerHeight);
+    const newSize = Math.min(this.canvas.width + 50, maxSize);
+    this.canvas.width = newSize;
+    this.canvas.height = newSize;
+  }
+
+  resizeMapDown(): void {
+    const newSize = Math.max(this.canvas.width - 50, 200);
+    this.canvas.width = newSize;
+    this.canvas.height = newSize;
+  }
+
   toggleMapMode(): void {
     this.mapMode = this.mapMode === 'texture' ? 'portal' : 'texture';
   }
