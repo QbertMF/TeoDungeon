@@ -250,6 +250,11 @@ function snapToGrid(value: number): number {
   return Math.round(value * 10) / 10;
 }
 
+// Function to get random texture ID
+function getRandomTextureId(): number {
+  return Math.floor(Math.random() * 8) + 1;
+}
+
 // Function to add new sector sharing the current wall
 export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: number): void {
   if (playerSector < 0 || playerSector >= LevelData.length || playerSectorWall < 0) {
@@ -341,10 +346,10 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
   for (let i = 0; i < vertexCount; i++) {
     if (i === 0) {
       // Shared wall - make it a portal with no wall parts
-      walls.push({ bottomHeight: 0.0, topHeight: 0.0, textureId: 1 });
+      walls.push({ bottomHeight: 0.0, topHeight: 0.0, textureId: getRandomTextureId() });
     } else {
       // Other walls - solid
-      walls.push({ bottomHeight: -1, topHeight: -1, textureId: 1 });
+      walls.push({ bottomHeight: -1, topHeight: -1, textureId: getRandomTextureId() });
     }
   }
   
@@ -358,8 +363,8 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
   const newSector: LevelSector = {
     floorHeight: newFloorHeight,
     ceilingHeight: newCeilingHeight,
-    floorTextureId: 1,
-    ceilingTextureId: 2,
+    floorTextureId: getRandomTextureId(),
+    ceilingTextureId: getRandomTextureId(),
     brightness: 0.8,
     vertices,
     walls,
