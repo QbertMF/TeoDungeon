@@ -9,6 +9,7 @@ export class MapRenderer {
   private hoveredVertex: { sectorIndex: number; vertexIndex: number } | null = null;
   private draggedVertex: { sectorIndex: number; vertexIndex: number } | null = null;
   private isDragging: boolean = false;
+  private dragStartPos: { x: number; y: number } | null = null;
   private onLevelUpdate: (() => void) | null = null;
 
   constructor(onLevelUpdate?: () => void) {
@@ -108,11 +109,23 @@ export class MapRenderer {
     
     const worldPos = this.screenToWorld(mousePos.x, mousePos.y, this.lastCamera);
     
-    if (this.isDragging && this.draggedVertex) {
-      // Update vertex position with snap to grid
+    if (this.isDragging && this.draggedVertex && this.dragStartPos) {
+      // Update vertex position with optional axis constraints
       const sector = LevelData[this.draggedVertex.sectorIndex];
-      sector.vertices[this.draggedVertex.vertexIndex].x = this.snapToGrid(worldPos.x);
-      sector.vertices[this.draggedVertex.vertexIndex].y = this.snapToGrid(worldPos.y);
+      let newX = this.snapToGrid(worldPos.x);
+      let newY = this.snapToGrid(worldPos.y);
+      
+      // Apply axis constraints
+      if (e.shiftKey) {
+        // Constrain to X-axis (keep original Y)
+        newY = this.dragStartPos.y;
+      } else if (e.altKey) {
+        // Constrain to Y-axis (keep original X)
+        newX = this.dragStartPos.x;
+      }
+      
+      sector.vertices[this.draggedVertex.vertexIndex].x = newX;
+      sector.vertices[this.draggedVertex.vertexIndex].y = newY;
     } else {
       // Check for vertex hover
       this.hoveredVertex = this.findVertexAt(worldPos.x, worldPos.y);
@@ -123,6 +136,10 @@ export class MapRenderer {
     if (e.button === 0 && this.hoveredVertex) { // Left mouse button
       this.draggedVertex = this.hoveredVertex;
       this.isDragging = true;
+      // Store original position for axis constraints
+      const sector = LevelData[this.draggedVertex.sectorIndex];
+      const vertex = sector.vertices[this.draggedVertex.vertexIndex];
+      this.dragStartPos = { x: vertex.x, y: vertex.y };
     }
   }
 
@@ -130,6 +147,7 @@ export class MapRenderer {
     if (e.button === 0 && this.isDragging) { // Left mouse button
       this.isDragging = false;
       this.draggedVertex = null;
+      this.dragStartPos = null;
       if (this.onLevelUpdate) {
         this.onLevelUpdate();
       }
