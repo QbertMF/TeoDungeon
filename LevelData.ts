@@ -102,8 +102,8 @@ export function toggleWall(): void {
   // Check if current wall is a solid wall (both heights are -1)
   if (wall.bottomHeight === -1 && wall.topHeight === -1) {
     // Convert to portal: set heights to sector floor/ceiling
-    wall.bottomHeight = 0.0; //sector.floorHeight;
-    wall.topHeight = 0.0;// sector.ceilingHeight;
+    wall.bottomHeight = 0.0;
+    wall.topHeight = 0.0;
   } else {
     // Convert to solid wall: set both heights to -1
     wall.bottomHeight = -1;
@@ -257,6 +257,7 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
   }
   
   const currentSector = LevelData[playerSector];
+  const currentWall = currentSector.walls[playerSectorWall];
   const nextWallIndex = (playerSectorWall + 1) % currentSector.vertices.length;
   const v1 = currentSector.vertices[playerSectorWall];
   const v2 = currentSector.vertices[nextWallIndex];
@@ -330,6 +331,12 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
     }
   }
   
+  // Transform solid wall to portal if it has negative values
+  if (currentWall.bottomHeight < 0 || currentWall.topHeight < 0) {
+    currentWall.bottomHeight = 0.0;
+    currentWall.topHeight = 0.0;
+  }
+  
   // Create walls
   for (let i = 0; i < vertexCount; i++) {
     if (i === 0) {
@@ -341,16 +348,16 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
     }
   }
   
-  // Calculate floor height based on portal bottom height
-  const currentWall = currentSector.walls[playerSectorWall];
+  // Calculate floor and ceiling heights based on portal dimensions
   const newFloorHeight = currentWall.bottomHeight > 0 
     ? currentSector.floorHeight + currentWall.bottomHeight 
     : currentSector.floorHeight;
+  const newCeilingHeight = currentSector.ceilingHeight - currentWall.topHeight;
   
   // Create new sector
   const newSector: LevelSector = {
     floorHeight: newFloorHeight,
-    ceilingHeight: currentSector.ceilingHeight,
+    ceilingHeight: newCeilingHeight,
     floorTextureId: 1,
     ceilingTextureId: 2,
     brightness: 0.8,
@@ -359,9 +366,6 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
   };
   
   LevelData.push(newSector);
-  
-  // Keep the current wall's original configuration - don't modify it
-  // The current sector's wall will show the step, the new sector's wall shows nothing
 }
 
 // Global level data array
