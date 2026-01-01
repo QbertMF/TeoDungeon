@@ -261,7 +261,7 @@ export class MapRenderer {
       this.canvas.height - 35
     );
     this.ctx.fillText(
-      `Sector: ${playerSector === -1 ? 'outside' : playerSector}`,
+      `Sector: ${playerSector === -1 ? 'outside' : `${playerSector} F:${LevelData[playerSector].floorHeight.toFixed(1)} C:${LevelData[playerSector].ceilingHeight.toFixed(1)}`}`,
       5,
       this.canvas.height - 20
     );

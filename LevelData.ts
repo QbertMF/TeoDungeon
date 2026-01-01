@@ -102,8 +102,8 @@ export function toggleWall(): void {
   // Check if current wall is a solid wall (both heights are -1)
   if (wall.bottomHeight === -1 && wall.topHeight === -1) {
     // Convert to portal: set heights to sector floor/ceiling
-    wall.bottomHeight = sector.floorHeight;
-    wall.topHeight = sector.ceilingHeight;
+    wall.bottomHeight = 0.0; //sector.floorHeight;
+    wall.topHeight = 0.0;// sector.ceilingHeight;
   } else {
     // Convert to solid wall: set both heights to -1
     wall.bottomHeight = -1;
@@ -333,17 +333,23 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
   // Create walls
   for (let i = 0; i < vertexCount; i++) {
     if (i === 0) {
-      // Shared wall - make it a portal
-      walls.push({ bottomHeight: currentSector.floorHeight, topHeight: currentSector.ceilingHeight, textureId: 1 });
+      // Shared wall - make it a portal with no wall parts
+      walls.push({ bottomHeight: 0.0, topHeight: 0.0, textureId: 1 });
     } else {
       // Other walls - solid
       walls.push({ bottomHeight: -1, topHeight: -1, textureId: 1 });
     }
   }
   
+  // Calculate floor height based on portal bottom height
+  const currentWall = currentSector.walls[playerSectorWall];
+  const newFloorHeight = currentWall.bottomHeight > 0 
+    ? currentSector.floorHeight + currentWall.bottomHeight 
+    : currentSector.floorHeight;
+  
   // Create new sector
   const newSector: LevelSector = {
-    floorHeight: currentSector.floorHeight,
+    floorHeight: newFloorHeight,
     ceilingHeight: currentSector.ceilingHeight,
     floorTextureId: 1,
     ceilingTextureId: 2,
@@ -354,9 +360,8 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
   
   LevelData.push(newSector);
   
-  // Make the current wall a portal too
-  currentSector.walls[playerSectorWall].bottomHeight = currentSector.floorHeight;
-  currentSector.walls[playerSectorWall].topHeight = currentSector.ceilingHeight;
+  // Keep the current wall's original configuration - don't modify it
+  // The current sector's wall will show the step, the new sector's wall shows nothing
 }
 
 // Global level data array
