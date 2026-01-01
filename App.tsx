@@ -51,6 +51,21 @@ export default function App() {
     let yaw = 0;
     let pitch = 0;
 
+    // FPS counter
+    let frameCount = 0;
+    let lastTime = performance.now();
+    let fps = 0;
+    const fpsElement = document.createElement('div');
+    fpsElement.style.position = 'absolute';
+    fpsElement.style.top = '10px';
+    fpsElement.style.left = '10px';
+    fpsElement.style.color = 'white';
+    fpsElement.style.fontFamily = 'monospace';
+    fpsElement.style.fontSize = '16px';
+    fpsElement.style.zIndex = '2000';
+    fpsElement.textContent = 'FPS: 0';
+    document.body.appendChild(fpsElement);
+
     // Light
     const light = new THREE.DirectionalLight(0xffffff, 2);
     light.position.set(1, 1, 1);
@@ -84,6 +99,15 @@ export default function App() {
 
     // Render loop
     const render = () => {
+      // Update FPS counter
+      frameCount++;
+      const currentTime = performance.now();
+      if (currentTime - lastTime >= 1000) {
+        fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+        fpsElement.textContent = `FPS: ${fps}`;
+        frameCount = 0;
+        lastTime = currentTime;
+      }
       // Handle rotation and vertical movement
       if (keys.current['shift']) {
         // Vertical movement when shift is held

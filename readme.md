@@ -18,13 +18,12 @@ npm start # you can open iOS, Android, or web from here, or run them directly wi
 because we draw double sided walls on same location for adjacent sectors.
 Signle sided polygons would be better.
 
-## FPS counter
-
 ## Wall data
 
 ## character movement
 
 ## Map editor
+enable wall movement
 
 ## switch map modes
 use a mode to display walls and portals only
