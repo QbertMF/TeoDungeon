@@ -362,7 +362,8 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
     ceilingTextureId: 2,
     brightness: 0.8,
     vertices,
-    walls
+    walls,
+    drawCount: 0
   };
   
   LevelData.push(newSector);
@@ -387,7 +388,8 @@ export const LevelData: LevelSector[] = [
       { bottomHeight: -1, topHeight: -1, textureId: 4 },
       { bottomHeight: 0.0, topHeight: 1.0, textureId: 5 },
       { bottomHeight: 0.0, topHeight: 1.0, textureId: 6 }
-    ]
+    ],
+    drawCount: 0
   },
   {
     floorHeight: 0,
@@ -406,7 +408,8 @@ export const LevelData: LevelSector[] = [
       { bottomHeight: 1, topHeight: 0.5, textureId: 10 },
       { bottomHeight: 0, topHeight: 0.5, textureId: 11 },
       { bottomHeight: 1, topHeight: 0.5, textureId: 12 }
-    ]
+    ],
+    drawCount: 0
   },
   {
     floorHeight: 0,
@@ -427,7 +430,8 @@ export const LevelData: LevelSector[] = [
       { bottomHeight: 1, topHeight: 0.5, textureId: 17 },
       { bottomHeight: 1, topHeight: 0.5, textureId: 18 },
       { bottomHeight: 1, topHeight: 0.5, textureId: 19 }
-    ]
+    ],
+    drawCount: 0
   },
   {
     floorHeight: 0,
@@ -444,7 +448,8 @@ export const LevelData: LevelSector[] = [
       { bottomHeight: 0, topHeight: 0.5, textureId: 22 },
       { bottomHeight: 0.0, topHeight: 0.5, textureId: 23 },
       { bottomHeight: -1, topHeight: -1, textureId: 24 }
-    ]
+    ],
+    drawCount: 0
   },
   {
     floorHeight: 0,
@@ -463,7 +468,8 @@ export const LevelData: LevelSector[] = [
       { bottomHeight: 1, topHeight: 0.5, textureId: 28 },
       { bottomHeight: 1, topHeight: 0.5, textureId: 29 },
       { bottomHeight: 0.0, topHeight: 1.0, textureId: 30 }
-    ]
+    ],
+    drawCount: 0
   }
 ];
 

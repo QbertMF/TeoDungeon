@@ -13,6 +13,9 @@ export interface Wall {
 
 // Polygonal level sector
 export interface LevelSector {
+  // Rendering
+  drawCount: number;       // Draw count for rendering optimization
+
   // Floor and ceiling properties
   floorHeight: number;     // Base floor height
   ceilingHeight: number;   // Base ceiling height
@@ -25,7 +28,7 @@ export interface LevelSector {
   // Geometry
   vertices: Vector2D[];    // Polygon vertices in 2D space
   walls: Wall[];          // Wall data (length must match vertices.length)
-}
+  }
 
 // Complete level structure
 export interface Level {
