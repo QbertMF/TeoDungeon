@@ -51,6 +51,8 @@ export class HelpOverlay {
       <div>↓      : Look Down</div>
       <div>Shift+↑: Move Up</div>
       <div>Shift+↓: Move Down</div>
+      <div>Shift+←: Snap Left 45°</div>
+      <div>Shift+→: Snap Right 45°</div>
       <div>NUM 0  : Reset View</div>
       <div>C      : Toggle Collision</div>
       <br>

@@ -93,6 +93,17 @@ export default function App() {
         if (keys.current['arrowdown']) {
           camera.position.y -= moveSpeed;
         }
+        // Orthogonal rotation snapping
+        if (keys.current['arrowright']) {
+          yaw -= Math.PI / 4; // Turn 45 degrees clockwise
+          yaw = Math.round(yaw / (Math.PI / 4)) * (Math.PI / 4); // Snap to 45-degree increments
+          keys.current['arrowright'] = false;
+        }
+        if (keys.current['arrowleft']) {
+          yaw += Math.PI / 4; // Turn 45 degrees counter-clockwise
+          yaw = Math.round(yaw / (Math.PI / 4)) * (Math.PI / 4); // Snap to 45-degree increments
+          keys.current['arrowleft'] = false;
+        }
       } else {
         // Rotation when shift is not held
         if (keys.current['arrowleft']) yaw += rotateSpeed;
@@ -124,6 +135,7 @@ export default function App() {
         if (playerSector >= 0 && playerSector < LevelData.length) {
           camera.position.y = LevelData[playerSector].floorHeight + 1.5;
         }
+        keys.current['0'] = false; // Prevent continuous triggering
       }
       if (keys.current['1']) {
         toggleWall();
