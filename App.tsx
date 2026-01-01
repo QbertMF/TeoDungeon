@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { HelpOverlay } from './HelpOverlay';
-import { LevelData, playerSector, updatePlayerSector, findLookingAtWall, toggleWall, addSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight, printSectors } from './LevelData';
+import { LevelData, playerSector, updatePlayerSector, findLookingAtWall, toggleWall, addSector, deleteSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight, printSectors } from './LevelData';
 import { Asset } from 'expo-asset';
 
 export default function App() {
@@ -201,6 +201,11 @@ export default function App() {
       if (keys.current['p']) {
         printSectors();
         keys.current['p'] = false;
+      }
+      if (keys.current['#']) {
+        deleteSector();
+        levelRenderer.refreshLevel();
+        keys.current['#'] = false;
       }
 
       // Handle movement

@@ -255,6 +255,14 @@ function getRandomTextureId(): number {
   return Math.floor(Math.random() * 8) + 1;
 }
 
+// Function to delete current player sector
+export function deleteSector(): void {
+  if (playerSector >= 0 && playerSector < LevelData.length) {
+    LevelData.splice(playerSector, 1);
+    playerSector = findPlayerSector(0, 0); // Reset player sector
+  }
+}
+
 // Function to add new sector sharing the current wall
 export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: number): void {
   if (playerSector < 0 || playerSector >= LevelData.length || playerSectorWall < 0) {

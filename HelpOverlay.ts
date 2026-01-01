@@ -31,6 +31,7 @@ export class HelpOverlay {
       <div>4      : Add Square Sector</div>
       <div>5      : Add Pentagon Sector</div>
       <div>6      : Add Hexagon Sector</div>
+      <div>#      : Delete Current Sector</div>
       <div>P      : Print Sectors</div>
       <br>
       <div><strong>Map Edit Wall:</strong></div>
