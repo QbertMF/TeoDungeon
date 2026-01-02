@@ -283,9 +283,13 @@ export class MapRenderer {
       });
     });
 
-    // Draw vertex coordinates for hovered or dragged vertex (top priority)
+    // Draw all text information at bottom left
     this.ctx.fillStyle = 'white';
     this.ctx.font = '12px Arial';
+    
+    let lineOffset = 5;
+    
+    // Draw vertex coordinates for hovered or dragged vertex (conditionally rendered at top)
     if (this.hoveredVertex || this.draggedVertex) {
       const vertex = this.hoveredVertex || this.draggedVertex;
       if (vertex) {
@@ -294,22 +298,11 @@ export class MapRenderer {
         this.ctx.fillText(
           `Vertex: X:${vertexData.x.toFixed(1)} Y:${vertexData.y.toFixed(1)}`,
           5,
-          this.canvas.height - 35
+          this.canvas.height - lineOffset
         );
+        lineOffset += 15;
       }
     }
-    
-    // Draw camera coordinates and sector
-    this.ctx.fillText(
-      `X: ${camera.position.x.toFixed(1)}   Z: ${camera.position.z.toFixed(1)}`,
-      5,
-      this.canvas.height - 20
-    );
-    this.ctx.fillText(
-      `Sector: ${playerSector === -1 ? 'outside' : `${playerSector} F:${LevelData[playerSector].floorHeight.toFixed(1)} C:${LevelData[playerSector].ceilingHeight.toFixed(1)}`}`,
-      5,
-      this.canvas.height - 5
-    );
     
     // Draw wall height information for selected wall
     if (playerSector >= 0 && playerSectorWall >= 0) {
@@ -317,8 +310,24 @@ export class MapRenderer {
       this.ctx.fillText(
         `Wall: B:${wall.bottomHeight.toFixed(1)} T:${wall.topHeight.toFixed(1)}`,
         5,
-        15
+        this.canvas.height - lineOffset
       );
+      lineOffset += 15;
     }
+    
+    // Draw sector information
+    this.ctx.fillText(
+      `Sector: ${playerSector === -1 ? 'outside' : `${playerSector} F:${LevelData[playerSector].floorHeight.toFixed(1)} C:${LevelData[playerSector].ceilingHeight.toFixed(1)}`}`,
+      5,
+      this.canvas.height - lineOffset
+    );
+    lineOffset += 15;
+    
+    // Draw camera coordinates
+    this.ctx.fillText(
+      `X: ${camera.position.x.toFixed(1)}   Z: ${camera.position.z.toFixed(1)}`,
+      5,
+      this.canvas.height - lineOffset
+    );
   }
 }
