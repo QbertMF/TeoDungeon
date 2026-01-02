@@ -35,6 +35,7 @@ export class HelpOverlay {
         '5      : Add Pentagon Sector',
         '6      : Add Hexagon Sector',
         '#      : Delete Current Sector',
+        'V      : Toggle Ceiling',
         'P      : Print Sectors'
       ])}
       ${this.createSection('Map Edit Wall', [
@@ -42,7 +43,8 @@ export class HelpOverlay {
         'R      : Raise Wall Bottom',
         'F      : Lower Wall Bottom',
         'T      : Lower Wall Top',
-        'G      : Raise Wall Top'
+        'G      : Raise Wall Top',
+        'E      : Apply Selected Texture'
       ])}
       ${this.createSection('Movement', [
         'W      : Move Forward',
@@ -59,8 +61,7 @@ export class HelpOverlay {
         'Shift+→: Snap Right 45°',
         'Alt+Arrow: Face Wall Perp.',
         'NUM 0  : Reset View',
-        'C      : Toggle Collision',
-        'V      : Toggle Ceiling'
+        'C      : Toggle Collision'
       ])}
       <br>
       <div>?      : Toggle Help</div>

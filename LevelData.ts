@@ -396,6 +396,16 @@ export function toggleCeiling(): void {
   }
 }
 
+// Function to apply texture to current wall
+export function applyTextureToWall(textureId: number): void {
+  if (playerSector >= 0 && playerSector < LevelData.length && playerSectorWall >= 0) {
+    const sector = LevelData[playerSector];
+    if (playerSectorWall < sector.walls.length) {
+      sector.walls[playerSectorWall].textureId = textureId;
+    }
+  }
+}
+
 // Global level data array
 export const LevelData: LevelSector[] = [
   {

@@ -7,12 +7,14 @@ import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { HelpOverlay } from './HelpOverlay';
 import { TextureManager } from './TextureManager';
-import { LevelData, playerSector, playerSectorWall, updatePlayerSector, findLookingAtWall, toggleWall, addSector, deleteSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight, printSectors, toggleCeiling } from './LevelData';
+import { LevelData, playerSector, playerSectorWall, updatePlayerSector, findLookingAtWall, toggleWall, addSector, deleteSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight, printSectors, toggleCeiling, applyTextureToWall } from './LevelData';
 import { Asset } from 'expo-asset';
 
 export default function App() {
   const raf = useRef<number | null>(null);
   const keys = useRef<{ [key: string]: boolean }>({});
+  const textureManagerRef = useRef<TextureManager | null>(null);
+  const lastWheelTime = useRef<number>(0);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -21,13 +23,24 @@ export default function App() {
     const handleKeyUp = (e: KeyboardEvent) => {
       keys.current[e.key.toLowerCase()] = false;
     };
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const now = Date.now();
+      if (textureManagerRef.current && now - lastWheelTime.current > 150) {
+        const delta = e.deltaY > 0 ? 1 : -1;
+        textureManagerRef.current.changeSelection(delta);
+        lastWheelTime.current = now;
+      }
+    };
 
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('wheel', handleWheel, { passive: false });
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('wheel', handleWheel);
     };
   }, []);
 
@@ -109,6 +122,12 @@ export default function App() {
     // Load textures
     await textureManager.loadTextures();
     console.log(`Loaded ${textureManager.textureArray.length} textures`);
+    
+    // Connect TextureManager to LevelRenderer
+    levelRenderer.setTextureManager(textureManager);
+    
+    // Store textureManager in ref for wheel events
+    textureManagerRef.current = textureManager;
     
     LevelData.forEach(sector => {
       levelRenderer.drawSector(sector);
@@ -277,6 +296,13 @@ export default function App() {
         deleteSector();
         levelRenderer.refreshLevel();
         keys.current['#'] = false;
+      }
+      if (keys.current['e']) {
+        if (textureManagerRef.current && playerSectorWall >= 0) {
+          applyTextureToWall(textureManagerRef.current.selectedIndex);
+          levelRenderer.refreshLevel();
+        }
+        keys.current['e'] = false;
       }
 
       // Handle movement

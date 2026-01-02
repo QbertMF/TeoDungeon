@@ -56,7 +56,7 @@ export class TextureManager {
     });
     this.selectionFrame = new THREE.Mesh(frameGeometry, frameMaterial);
     this.selectionFrame.renderOrder = 1001;
-    this.selectionFrame.material.depthTest = false;
+    //this.selectionFrame.material.depthTest = false;
     this.cubeContainer.add(this.selectionFrame);
   }
 
@@ -139,5 +139,11 @@ export class TextureManager {
     if (this.selectedIndex < this.cubes.length) {
       this.selectionFrame.position.copy(this.cubes[this.selectedIndex].position);
     }
+  }
+
+  changeSelection(delta: number): void {
+    if (this.textureArray.length === 0) return;
+    
+    this.selectedIndex = (this.selectedIndex + delta + this.textureArray.length) % this.textureArray.length;
   }
 }

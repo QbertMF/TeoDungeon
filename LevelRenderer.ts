@@ -1,14 +1,20 @@
 import * as THREE from 'three';
 import { LevelSector } from './types/LevelStructure';
 import { LevelData } from './LevelData';
+import { TextureManager } from './TextureManager';
 
 export class LevelRenderer {
   private scene: THREE.Scene;
   private materials: Map<number, THREE.Material> = new Map();
   private sectorGroups: THREE.Group[] = [];
+  private textureManager?: TextureManager;
 
   constructor(scene: THREE.Scene) {
     this.scene = scene;
+  }
+
+  setTextureManager(textureManager: TextureManager): void {
+    this.textureManager = textureManager;
   }
 
   private getColorFromTextureId(textureId: number): number {
@@ -29,11 +35,28 @@ export class LevelRenderer {
     const key = textureId * 1000 + Math.floor(brightness * 100);
     
     if (!this.materials.has(key)) {
-      const color = this.getColorFromTextureId(textureId);
-      const material = new THREE.MeshLambertMaterial({ 
-        color: new THREE.Color(color).multiplyScalar(brightness),
-        side: THREE.DoubleSide
-      });
+      let material: THREE.Material;
+      
+      if (this.textureManager && textureId >= 0 && textureId < this.textureManager.textureArray.length) {
+        // Use texture from TextureManager
+        const baseTexture = this.textureManager.textureArray[textureId];
+        material = new THREE.MeshStandardMaterial({
+          map: baseTexture.colorMap,
+          normalMap: baseTexture.normalMap,
+          roughnessMap: baseTexture.roughnessMap,
+          side: THREE.DoubleSide
+        });
+        // Apply brightness by modulating the material color
+        (material as THREE.MeshStandardMaterial).color.setScalar(brightness);
+      } else {
+        // Fallback to color-based material
+        const color = this.getColorFromTextureId(textureId);
+        material = new THREE.MeshLambertMaterial({ 
+          color: new THREE.Color(color).multiplyScalar(brightness),
+          side: THREE.DoubleSide
+        });
+      }
+      
       this.materials.set(key, material);
     }
     
