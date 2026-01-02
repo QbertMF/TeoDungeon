@@ -178,6 +178,12 @@ export function checkCollision(currentX: number, currentZ: number, newX: number,
         const slideX = currentX + dotProduct * wallNormX;
         const slideZ = currentZ + dotProduct * wallNormY;
         
+        // Add small buffer to prevent edge sticking
+        const bufferX = perpX * 0.001;
+        const bufferZ = perpY * 0.001;
+        const finalX = slideX + bufferX;
+        const finalZ = slideZ + bufferZ;
+        
         // Check if sliding position would collide with any other wall
         for (const otherSector of LevelData) {
           for (let j = 0; j < otherSector.vertices.length; j++) {
@@ -189,13 +195,13 @@ export function checkCollision(currentX: number, currentZ: number, newX: number,
             // Skip the current wall
             if (otherSector === sector && j === i) continue;
             
-            if (checkSingleWallCollision(slideX, slideZ, otherV1, otherV2, otherWall)) {
+            if (checkSingleWallCollision(finalX, finalZ, otherV1, otherV2, otherWall)) {
               return { x: currentX, z: currentZ };
             }
           }
         }
         
-        return { x: slideX, z: slideZ };
+        return { x: finalX, z: finalZ };
       }
     }
   }

@@ -23,7 +23,8 @@ feature: use textures for walls and floor ad ceiling
 feature: drawing ceiling to be disabled such that the sky is visible. 
 
 ## character movement
-Issue: sometimes player sticks with the back to a wall.
+Fixed Issue: sometimes player sticks with the back to a wall.
+-> Fixed by adding smapp buffer. A slight jitter is visible when sliding along walls. A smaller buffer value did not work. 
 
 ## Map editor
 Feature: enable wall movement
