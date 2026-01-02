@@ -251,9 +251,9 @@ export function printSectors(): void {
   console.log('All Sectors:', JSON.stringify(LevelData, null, 2));
 }
 
-// Function to snap coordinate to 0.01 grid
+// Function to snap coordinate to 0.1 grid
 function snapToGrid(value: number): number {
-  return Math.round(value * 100) / 100;
+  return Math.round(value * 10) / 10;
 }
 
 // Function to get random texture ID

@@ -96,7 +96,7 @@ export class MapRenderer {
   }
 
   private snapToGrid(value: number): number {
-    return Math.round(value * 100) / 100;
+    return Math.round(value * 10) / 10;
   }
 
   private findVertexAt(worldX: number, worldY: number): { sectorIndex: number; vertexIndex: number } | null {
@@ -292,7 +292,7 @@ export class MapRenderer {
         const sector = LevelData[vertex.sectorIndex];
         const vertexData = sector.vertices[vertex.vertexIndex];
         this.ctx.fillText(
-          `Vertex: X:${vertexData.x.toFixed(2)} Y:${vertexData.y.toFixed(2)}`,
+          `Vertex: X:${vertexData.x.toFixed(1)} Y:${vertexData.y.toFixed(1)}`,
           5,
           this.canvas.height - 35
         );

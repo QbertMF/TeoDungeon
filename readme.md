@@ -13,6 +13,26 @@ npm start # you can open iOS, Android, or web from here, or run them directly wi
 - npm run ios # requires an iOS device or macOS for access to an iOS simulator
 - npm run web
 
+# Architecture
+## Files and Code Summary
+### TeoDungeon/types/LevelStructure.ts
+Defines core interfaces - Vector2D, Wall, LevelSector with drawCount property, and Level structure
+
+### TeoDungeon/LevelData.ts
+Main game logic with collision detection, sector management, wall adjustments, and player tracking. Contains addSector(), deleteSector(), snapToGrid() functions
+
+### TeoDungeon/App.tsx
+Main application with render loop, keyboard controls, camera management, FPS counter, and sector count display
+
+### TeoDungeon/MapRenderer.ts
+2D map overlay with vertex dragging, coordinate display, zoom/resize functionality, and constrained movement
+
+### TeoDungeon/LevelRenderer.ts
+3D rendering system with proper wall/portal rendering based on height differences
+
+### TeoDungeon/HelpOverlay.ts
+Help system documenting all keyboard controls and features
+
 # ToDo
 ## Z fighting 
 because we draw double sided walls on same location for adjacent sectors.
