@@ -379,6 +379,7 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
     ceilingHeight: newCeilingHeight,
     floorTextureId: getRandomTextureId(),
     ceilingTextureId: getRandomTextureId(),
+    showCeiling: true,
     brightness: 0.8,
     vertices,
     walls,
@@ -388,6 +389,13 @@ export function addSector(vertexCount: number, lookDirX?: number, lookDirZ?: num
   LevelData.push(newSector);
 }
 
+// Function to toggle ceiling visibility for current player sector
+export function toggleCeiling(): void {
+  if (playerSector >= 0 && playerSector < LevelData.length) {
+    LevelData[playerSector].showCeiling = !LevelData[playerSector].showCeiling;
+  }
+}
+
 // Global level data array
 export const LevelData: LevelSector[] = [
   {
@@ -395,6 +403,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 1,
     "ceilingTextureId": 2,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -443,6 +452,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 7,
     "ceilingTextureId": 8,
+    "showCeiling": true,
     "brightness": 0.7,
     "vertices": [
       {
@@ -491,6 +501,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 13,
     "ceilingTextureId": 14,
+    "showCeiling": true,
     "brightness": 0.6,
     "vertices": [
       {
@@ -548,6 +559,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 20,
     "ceilingTextureId": 21,
+    "showCeiling": true,
     "brightness": 0.5,
     "vertices": [
       {
@@ -587,6 +599,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 25,
     "ceilingTextureId": 26,
+    "showCeiling": true,
     "brightness": 0.9,
     "vertices": [
       {
@@ -635,6 +648,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 3,
     "ceilingTextureId": 1,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -692,6 +706,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 8,
     "ceilingTextureId": 5,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -740,6 +755,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 3,
     "ceilingTextureId": 6,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -788,6 +804,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 6,
     "ceilingTextureId": 1,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -836,6 +853,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 1,
     "ceilingTextureId": 1,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -884,6 +902,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 5,
     "ceilingTextureId": 1,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -932,6 +951,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 3,
     "ceilingTextureId": 8,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -980,6 +1000,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 6,
     "ceilingTextureId": 5,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -1028,6 +1049,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 7,
     "ceilingTextureId": 5,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -1076,6 +1098,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 8,
     "ceilingTextureId": 4,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -1133,6 +1156,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 6,
     "ceilingTextureId": 2,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -1199,6 +1223,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 3,
     "ceilingTextureId": 3,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -1247,6 +1272,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 1,
     "ceilingTextureId": 6,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -1295,6 +1321,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 2,
     "ceilingTextureId": 6,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -1343,6 +1370,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 6,
     "ceilingTextureId": 5,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -1391,6 +1419,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 6,
     "ceilingTextureId": 8,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -1439,6 +1468,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 4,
     "ceilingTextureId": 3,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -1487,6 +1517,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 1,
     "ceilingTextureId": 2,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {
@@ -1535,6 +1566,7 @@ export const LevelData: LevelSector[] = [
     "ceilingHeight": 3,
     "floorTextureId": 6,
     "ceilingTextureId": 1,
+    "showCeiling": true,
     "brightness": 0.8,
     "vertices": [
       {

@@ -21,6 +21,7 @@ export interface LevelSector {
   ceilingHeight: number;   // Base ceiling height
   floorTextureId: number;  // Floor texture identifier
   ceilingTextureId: number; // Ceiling texture identifier
+  showCeiling: boolean;    // Flag to control ceiling rendering
   
   // Lighting
   brightness: number;      // Brightness level (0.0 - 1.0)

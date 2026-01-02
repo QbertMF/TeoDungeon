@@ -57,13 +57,15 @@ export class LevelRenderer {
     group.add(floor);
 
     // Draw ceiling
-    const { shape: ceilingShape, center: ceilingCenter } = this.createCenteredShape(sector.vertices);
-    const ceilingGeometry = new THREE.ShapeGeometry(ceilingShape);
-    const ceilingMaterial = this.getMaterial(sector.ceilingTextureId, sector.brightness);
-    const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
-    ceiling.rotation.x = Math.PI / 2;
-    ceiling.position.set(ceilingCenter.x, sector.ceilingHeight, ceilingCenter.y);
-    group.add(ceiling);
+    if (sector.showCeiling) {
+      const { shape: ceilingShape, center: ceilingCenter } = this.createCenteredShape(sector.vertices);
+      const ceilingGeometry = new THREE.ShapeGeometry(ceilingShape);
+      const ceilingMaterial = this.getMaterial(sector.ceilingTextureId, sector.brightness);
+      const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
+      ceiling.rotation.x = Math.PI / 2;
+      ceiling.position.set(ceilingCenter.x, sector.ceilingHeight, ceilingCenter.y);
+      group.add(ceiling);
+    }
 
     // Draw walls
     for (let i = 0; i < sector.vertices.length; i++) {

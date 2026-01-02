@@ -49,6 +49,7 @@ Fixed Issue: sometimes player sticks with the back to a wall.
 ## Map editor
 Feature: enable wall movement
 feature: vertex coordinates should snap to existing vertex coordinates
+feature: enable raisung and lowering of floor and ceiling
 fixed issue: vertex coordinates only nees one decimal point for sanpping
 
 ## switch map modes

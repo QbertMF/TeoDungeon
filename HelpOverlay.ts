@@ -57,6 +57,7 @@ export class HelpOverlay {
       <div>Alt+Arrow: Face Wall Perp.</div>
       <div>NUM 0  : Reset View</div>
       <div>C      : Toggle Collision</div>
+      <div>V      : Toggle Ceiling</div>
       <br>
       <div>?      : Toggle Help</div>
     `;
