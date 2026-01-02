@@ -314,6 +314,15 @@ export default function App() {
         }
         keys.current['q'] = false;
       }
+      if (keys.current[',']) {
+        // Add point light at current camera position
+        const intensity = Math.random() * 90 + 10; // Random between 10-100
+        const distance = Math.random() * 2.5 + 0.5; // Random between 0.5-3
+        const pointLight = new THREE.PointLight(0xffffff, intensity, distance);
+        pointLight.position.copy(camera.position);
+        scene.add(pointLight);
+        keys.current[','] = false;
+      }
 
       // Handle movement
       const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);

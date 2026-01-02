@@ -36,6 +36,7 @@ export class HelpOverlay {
         '6      : Add Hexagon Sector',
         '#      : Delete Current Sector',
         'V      : Toggle Ceiling',
+        ',      : Add Point Light',
         'P      : Print Sectors'
       ])}
       ${this.createSection('Map Edit Wall', [
