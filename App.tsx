@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { View } from 'react-native';
 import { GLView } from 'expo-gl';
@@ -7,6 +6,7 @@ import * as THREE from 'three';
 import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { HelpOverlay } from './HelpOverlay';
+import { TextureManager } from './TextureManager';
 import { LevelData, playerSector, playerSectorWall, updatePlayerSector, findLookingAtWall, toggleWall, addSector, deleteSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight, printSectors, toggleCeiling } from './LevelData';
 import { Asset } from 'expo-asset';
 
@@ -104,6 +104,12 @@ export default function App() {
     const levelRenderer = new LevelRenderer(scene);
     const mapRenderer = new MapRenderer(() => levelRenderer.refreshLevel());
     const helpOverlay = new HelpOverlay();
+    const textureManager = new TextureManager(scene);
+    
+    // Load textures
+    await textureManager.loadTextures();
+    console.log(`Loaded ${textureManager.textureArray.length} textures`);
+    
     LevelData.forEach(sector => {
       levelRenderer.drawSector(sector);
     });
@@ -312,6 +318,9 @@ export default function App() {
 
       // Update 2D map
       mapRenderer.drawMap(camera);
+
+      // Update texture cubes
+      textureManager.updateCubePositions(camera);
 
       renderer.render(scene, camera);
       gl.endFrameEXP(); // tell Expo GL to display the frame
