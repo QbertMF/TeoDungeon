@@ -406,6 +406,20 @@ export function applyTextureToWall(textureId: number): void {
   }
 }
 
+// Function to apply texture to all surfaces in current sector
+export function applyTextureToSector(textureId: number): void {
+  if (playerSector >= 0 && playerSector < LevelData.length) {
+    const sector = LevelData[playerSector];
+    // Apply to floor and ceiling
+    sector.floorTextureId = textureId;
+    sector.ceilingTextureId = textureId;
+    // Apply to all walls
+    sector.walls.forEach(wall => {
+      wall.textureId = textureId;
+    });
+  }
+}
+
 // Global level data array
 export const LevelData: LevelSector[] = [
   {

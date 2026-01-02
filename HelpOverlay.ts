@@ -44,7 +44,8 @@ export class HelpOverlay {
         'F      : Lower Wall Bottom',
         'T      : Lower Wall Top',
         'G      : Raise Wall Top',
-        'E      : Apply Selected Texture'
+        'E      : Apply Selected Texture',
+        'Q      : Apply Texture to Sector'
       ])}
       ${this.createSection('Movement', [
         'W      : Move Forward',

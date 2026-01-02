@@ -7,7 +7,7 @@ import { LevelRenderer } from './LevelRenderer';
 import { MapRenderer } from './MapRenderer';
 import { HelpOverlay } from './HelpOverlay';
 import { TextureManager } from './TextureManager';
-import { LevelData, playerSector, playerSectorWall, updatePlayerSector, findLookingAtWall, toggleWall, addSector, deleteSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight, printSectors, toggleCeiling, applyTextureToWall } from './LevelData';
+import { LevelData, playerSector, playerSectorWall, updatePlayerSector, findLookingAtWall, toggleWall, addSector, deleteSector, checkCollision, toggleCollision, adjustWallBottomHeight, adjustWallTopHeight, printSectors, toggleCeiling, applyTextureToWall, applyTextureToSector } from './LevelData';
 import { Asset } from 'expo-asset';
 
 export default function App() {
@@ -306,6 +306,13 @@ export default function App() {
           levelRenderer.refreshLevel();
         }
         keys.current['e'] = false;
+      }
+      if (keys.current['q']) {
+        if (textureManagerRef.current && playerSector >= 0) {
+          applyTextureToSector(textureManagerRef.current.selectedIndex);
+          levelRenderer.refreshLevel();
+        }
+        keys.current['q'] = false;
       }
 
       // Handle movement
