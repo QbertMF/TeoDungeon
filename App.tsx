@@ -154,7 +154,10 @@ export default function App() {
         if (keys.current['arrowdown']) {
           camera.position.y -= moveSpeed;
         }
-        // Orthogonal rotation snapping
+      }
+      
+      if (keys.current['control']) {
+        // Orthogonal rotation snapping when ctrl is held
         if (keys.current['arrowright']) {
           yaw -= Math.PI / 4; // Turn 45 degrees clockwise
           yaw = Math.round(yaw / (Math.PI / 4)) * (Math.PI / 4); // Snap to 45-degree increments
@@ -190,7 +193,7 @@ export default function App() {
           keys.current['arrowright'] = false;
         }
       } else {
-        // Rotation when shift is not held
+        // Normal rotation when no modifier keys are held
         if (keys.current['arrowleft']) yaw += rotateSpeed;
         if (keys.current['arrowright']) yaw -= rotateSpeed;
         if (keys.current['arrowup']) pitch = Math.max(pitch - rotateSpeed, -Math.PI / 2);
@@ -309,24 +312,26 @@ export default function App() {
       const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
       const right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
       
+      const currentMoveSpeed = keys.current['shift'] ? moveSpeed * 2 : moveSpeed;
+      
       let newX = camera.position.x;
       let newZ = camera.position.z;
 
       if (keys.current['w']) {
-        newX += forward.x * moveSpeed;
-        newZ += forward.z * moveSpeed;
+        newX += forward.x * currentMoveSpeed;
+        newZ += forward.z * currentMoveSpeed;
       }
       if (keys.current['s']) {
-        newX -= forward.x * moveSpeed;
-        newZ -= forward.z * moveSpeed;
+        newX -= forward.x * currentMoveSpeed;
+        newZ -= forward.z * currentMoveSpeed;
       }
       if (keys.current['a']) {
-        newX -= right.x * moveSpeed;
-        newZ -= right.z * moveSpeed;
+        newX -= right.x * currentMoveSpeed;
+        newZ -= right.z * currentMoveSpeed;
       }
       if (keys.current['d']) {
-        newX += right.x * moveSpeed;
-        newZ += right.z * moveSpeed;
+        newX += right.x * currentMoveSpeed;
+        newZ += right.z * currentMoveSpeed;
       }
       
 

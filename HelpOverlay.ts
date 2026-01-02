@@ -57,8 +57,8 @@ export class HelpOverlay {
         '↓      : Look Down',
         'Shift+↑: Move Up',
         'Shift+↓: Move Down',
-        'Shift+←: Snap Left 45°',
-        'Shift+→: Snap Right 45°',
+        'Ctrl+←: Snap Left 45°',
+        'Ctrl+→: Snap Right 45°',
         'Alt+Arrow: Face Wall Perp.',
         'NUM 0  : Reset View',
         'C      : Toggle Collision'
