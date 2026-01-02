@@ -40,7 +40,7 @@ Signle sided polygons would be better.
 
 ## Wall data
 feature: use textures for walls and floor ad ceiling
-feature: drawing ceiling to be disabled such that the sky is visible. 
+implemented feature: drawing ceiling to be disabled such that the sky is visible. 
 
 ## character movement
 Fixed Issue: sometimes player sticks with the back to a wall.
@@ -49,7 +49,7 @@ Fixed Issue: sometimes player sticks with the back to a wall.
 ## Map editor
 Feature: enable wall movement
 feature: vertex coordinates should snap to existing vertex coordinates
-feature: enable raisung and lowering of floor and ceiling
+feature: enable raising and lowering of floor and ceiling
 fixed issue: vertex coordinates only nees one decimal point for sanpping
 
 ## switch map modes
