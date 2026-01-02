@@ -84,6 +84,14 @@ export class TextureManager {
         });
 
         colorMap.colorSpace = THREE.SRGBColorSpace;
+        colorMap.wrapS = THREE.RepeatWrapping;
+        colorMap.wrapT = THREE.RepeatWrapping;
+        
+        normalMap.wrapS = THREE.RepeatWrapping;
+        normalMap.wrapT = THREE.RepeatWrapping;
+        
+        roughnessMap.wrapS = THREE.RepeatWrapping;
+        roughnessMap.wrapT = THREE.RepeatWrapping;
         
         const material = new THREE.MeshStandardMaterial({
           map: colorMap,

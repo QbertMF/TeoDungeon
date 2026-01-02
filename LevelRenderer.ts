@@ -201,6 +201,15 @@ export class LevelRenderer {
     const height = topY - bottomY;
     const geometry = new THREE.PlaneGeometry(width, height);
     
+    // Set UV coordinates for repeating texture
+    const uvAttribute = geometry.attributes.uv;
+    const uvArray = uvAttribute.array as Float32Array;
+    uvArray[0] = 0; uvArray[1] = 0;           // bottom-left
+    uvArray[2] = width; uvArray[3] = 0;       // bottom-right  
+    uvArray[4] = 0; uvArray[5] = height/2;      // top-left
+    uvArray[6] = width; uvArray[7] = height/2;  // top-right
+    uvAttribute.needsUpdate = true;
+    
     // Position at center of wall segment
     const centerX = (v1.x + v2.x) / 2;
     const centerZ = (v1.y + v2.y) / 2;
