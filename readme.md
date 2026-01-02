@@ -19,11 +19,16 @@ because we draw double sided walls on same location for adjacent sectors.
 Signle sided polygons would be better.
 
 ## Wall data
+feature: use textures for walls and floor ad ceiling
+feature: drawing ceiling to be disabled such that the sky is visible. 
 
 ## character movement
+Issue: sometimes player sticks with the back to a wall.
 
 ## Map editor
-enable wall movement
+Feature: enable wall movement
+feature: vertex coordinates should snap to existing vertex coordinates
+issue: vertex coordinates only nees one decimal point for sanpping
 
 ## switch map modes
 use a mode to display walls and portals only
