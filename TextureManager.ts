@@ -5,22 +5,22 @@ import { Asset } from 'expo-asset';
 const textureAssets = {
   Bricks087: {
     color: require('./assets/textures/Bricks087_1K-JPG/Bricks087_1K-JPG_Color.jpg'),
-    normal: require('./assets/textures/Bricks087_1K-JPG/Bricks087_1K-JPG_NormalGL.jpg'),
+    normal: require('./assets/textures/Bricks087_1K-JPG/Bricks087_1K-JPG_NormalDX.jpg'),
     roughness: require('./assets/textures/Bricks087_1K-JPG/Bricks087_1K-JPG_Roughness.jpg')
   },
   Bricks089: {
     color: require('./assets/textures/Bricks089_1K-JPG/Bricks089_1K-JPG_Color.jpg'),
-    normal: require('./assets/textures/Bricks089_1K-JPG/Bricks089_1K-JPG_NormalGL.jpg'),
+    normal: require('./assets/textures/Bricks089_1K-JPG/Bricks089_1K-JPG_NormalDX.jpg'),
     roughness: require('./assets/textures/Bricks089_1K-JPG/Bricks089_1K-JPG_Roughness.jpg')
   },
   Bricks095: {
     color: require('./assets/textures/Bricks095_1K-JPG/Bricks095_1K-JPG_Color.jpg'),
-    normal: require('./assets/textures/Bricks095_1K-JPG/Bricks095_1K-JPG_NormalGL.jpg'),
+    normal: require('./assets/textures/Bricks095_1K-JPG/Bricks095_1K-JPG_NormalDX.jpg'),
     roughness: require('./assets/textures/Bricks095_1K-JPG/Bricks095_1K-JPG_Roughness.jpg')
   },
   Rocks001: {
     color: require('./assets/textures/Rocks001_1K-JPG/Rocks001_1K-JPG_Color.jpg'),
-    normal: require('./assets/textures/Rocks001_1K-JPG/Rocks001_1K-JPG_NormalGL.jpg'),
+    normal: require('./assets/textures/Rocks001_1K-JPG/Rocks001_1K-JPG_NormalDX.jpg'),
     roughness: require('./assets/textures/Rocks001_1K-JPG/Rocks001_1K-JPG_Roughness.jpg')
   }
 };
