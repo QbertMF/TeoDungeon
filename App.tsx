@@ -59,15 +59,16 @@ export default function App() {
     );
     camera.position.set(0, 1.5, 0);
     const direction = new THREE.Vector3(0, 0, -1);
-    const moveSpeed = 0.1;
-    const rotateSpeed = 0.05;
+    const moveSpeed = 6.0; // units per second
+    const rotateSpeed = 3.0; // radians per second
     let yaw = 0;
     let pitch = 0;
 
-    // FPS counter
+    // FPS counter and delta time
     let frameCount = 0;
     let lastTime = performance.now();
     let fps = 0;
+    let lastFrameTime = performance.now();
     const fpsElement = document.createElement('div');
     fpsElement.style.position = 'absolute';
     fpsElement.style.top = '10px';
@@ -135,6 +136,11 @@ export default function App() {
 
     // Render loop
     const render = () => {
+      // Calculate delta time
+      const currentFrameTime = performance.now();
+      const deltaTime = (currentFrameTime - lastFrameTime) / 1000; // Convert to seconds
+      lastFrameTime = currentFrameTime;
+      
       // Update FPS counter
       frameCount++;
       const currentTime = performance.now();
@@ -149,10 +155,10 @@ export default function App() {
       if (keys.current['shift']) {
         // Vertical movement when shift is held
         if (keys.current['arrowup']) {
-          camera.position.y += moveSpeed;
+          camera.position.y += moveSpeed * deltaTime;
         }
         if (keys.current['arrowdown']) {
-          camera.position.y -= moveSpeed;
+          camera.position.y -= moveSpeed * deltaTime;
         }
       }
       
@@ -194,10 +200,10 @@ export default function App() {
         }
       } else {
         // Normal rotation when no modifier keys are held
-        if (keys.current['arrowleft']) yaw += rotateSpeed;
-        if (keys.current['arrowright']) yaw -= rotateSpeed;
-        if (keys.current['arrowup']) pitch = Math.max(pitch - rotateSpeed, -Math.PI / 2);
-        if (keys.current['arrowdown']) pitch = Math.min(pitch + rotateSpeed, Math.PI / 2);
+        if (keys.current['arrowleft']) yaw += rotateSpeed * deltaTime;
+        if (keys.current['arrowright']) yaw -= rotateSpeed * deltaTime;
+        if (keys.current['arrowup']) pitch = Math.max(pitch - rotateSpeed * deltaTime, -Math.PI / 2);
+        if (keys.current['arrowdown']) pitch = Math.min(pitch + rotateSpeed * deltaTime, Math.PI / 2);
       }
       
       // Apply rotations in correct order
@@ -328,7 +334,7 @@ export default function App() {
       const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
       const right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
       
-      const currentMoveSpeed = keys.current['shift'] ? moveSpeed * 2 : moveSpeed;
+      const currentMoveSpeed = (keys.current['shift'] ? moveSpeed * 2 : moveSpeed) * deltaTime;
       
       let newX = camera.position.x;
       let newZ = camera.position.z;
