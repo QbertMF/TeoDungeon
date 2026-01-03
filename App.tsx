@@ -153,16 +153,14 @@ export default function App() {
       }
       // Handle rotation and vertical movement
       if (keys.current['shift']) {
-        // Vertical movement when shift is held
+        // Vertical movement when shift is held (no rotation)
         if (keys.current['arrowup']) {
           camera.position.y += moveSpeed * deltaTime;
         }
         if (keys.current['arrowdown']) {
           camera.position.y -= moveSpeed * deltaTime;
         }
-      }
-      
-      if (keys.current['control']) {
+      } else if (keys.current['control']) {
         // Orthogonal rotation snapping when ctrl is held
         if (keys.current['arrowright']) {
           yaw -= Math.PI / 4; // Turn 45 degrees clockwise

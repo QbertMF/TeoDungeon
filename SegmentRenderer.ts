@@ -1,5 +1,18 @@
 import * as THREE from 'three';
-import { LevelSegment } from './types/LevelStructure';
+
+interface LevelSegment {
+  vertices: { x: number; y: number }[];
+  floorHeight: number;
+  ceilingHeight: number;
+  floorTextureId: number;
+  ceilingTextureId: number;
+  brightness: number;
+  walls: Array<{
+    textureId: number;
+    bottomHeight: number;
+    topHeight: number;
+  }>;
+}
 
 export class SegmentRenderer {
   private scene: THREE.Scene;
@@ -7,6 +20,12 @@ export class SegmentRenderer {
 
   constructor(scene: THREE.Scene) {
     this.scene = scene;
+  }
+
+  clearMaterialCache(): void {
+    // Dispose of existing materials
+    this.materials.forEach(material => material.dispose());
+    this.materials.clear();
   }
 
   private getColorFromTextureId(textureId: number): number {
@@ -29,7 +48,8 @@ export class SegmentRenderer {
     if (!this.materials.has(key)) {
       const color = this.getColorFromTextureId(textureId);
       const material = new THREE.MeshLambertMaterial({ 
-        color: new THREE.Color(color).multiplyScalar(brightness)
+        color: new THREE.Color(color).multiplyScalar(brightness),
+        side: THREE.FrontSide // Single-sided rendering
       });
       this.materials.set(key, material);
     }
@@ -44,7 +64,7 @@ export class SegmentRenderer {
     const floorGeometry = new THREE.ShapeGeometry(this.createShape(segment.vertices));
     const floorMaterial = this.getMaterial(segment.floorTextureId, segment.brightness);
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-    floor.rotation.x = -Math.PI / 2;
+    floor.rotation.x = Math.PI / 2; // Flip to make normal point upward (visible from inside)
     floor.position.y = segment.floorHeight;
     group.add(floor);
 
@@ -52,7 +72,7 @@ export class SegmentRenderer {
     const ceilingGeometry = new THREE.ShapeGeometry(this.createShape(segment.vertices));
     const ceilingMaterial = this.getMaterial(segment.ceilingTextureId, segment.brightness);
     const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
-    ceiling.rotation.x = Math.PI / 2;
+    ceiling.rotation.x = -Math.PI / 2; // Flip to make normal point downward (visible from inside)
     ceiling.position.y = segment.ceilingHeight;
     group.add(ceiling);
 
@@ -120,7 +140,7 @@ export class SegmentRenderer {
     geometry.translate(centerX, centerY, centerZ);
     
     const angle = Math.atan2(v2.y - v1.y, v2.x - v1.x);
-    geometry.rotateY(angle + Math.PI / 2);
+    geometry.rotateY(angle - Math.PI / 2); // Flip wall to face inward
     
     return geometry;
   }
