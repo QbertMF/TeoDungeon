@@ -153,13 +153,16 @@ export default function App() {
       }
       // Handle rotation and vertical movement
       if (keys.current['shift']) {
-        // Vertical movement when shift is held (no rotation)
+        // Vertical movement when shift is held with up/down (no pitch rotation)
         if (keys.current['arrowup']) {
           camera.position.y += moveSpeed * deltaTime;
         }
         if (keys.current['arrowdown']) {
           camera.position.y -= moveSpeed * deltaTime;
         }
+        // Still allow horizontal rotation with left/right arrows
+        if (keys.current['arrowleft']) yaw += rotateSpeed * deltaTime;
+        if (keys.current['arrowright']) yaw -= rotateSpeed * deltaTime;
       } else if (keys.current['control']) {
         // Orthogonal rotation snapping when ctrl is held
         if (keys.current['arrowright']) {

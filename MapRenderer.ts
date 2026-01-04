@@ -48,7 +48,7 @@ export class MapRenderer {
   }
 
   zoomOut(): void {
-    this.scale = Math.max(this.scale / 1.2, 5);
+    this.scale = Math.max(this.scale / 1.2, 2);
   }
 
   resizeMapUp(): void {
