@@ -32,7 +32,13 @@ Main application with render loop, keyboard controls, camera management, FPS cou
 3D rendering system with proper wall/portal rendering based on height differences
 
 ### TeoDungeon/HelpOverlay.ts
-Help system documenting all keyboard controls and features
+Help system documenting all keyboard controls and feature
+
+### Teos Ideen
+Weiter rauszoomen können
+monster spawnen (in den grossen Räumen)
+Wie sie man aus?
+shift not working in speed mode
 
 # ToDo
 ## Z fighting 

@@ -13,6 +13,12 @@ export class LevelRenderer {
     this.scene = scene;
   }
 
+  clearMaterialCache(): void {
+    // Dispose of existing materials
+    this.materials.forEach(material => material.dispose());
+    this.materials.clear();
+  }
+
   setTextureManager(textureManager: TextureManager): void {
     this.textureManager = textureManager;
   }
@@ -31,11 +37,12 @@ export class LevelRenderer {
     return colors[textureId % colors.length];
   }
 
-  private getMaterial(textureId: number, brightness: number): THREE.Material {
-    const key = textureId * 1000 + Math.floor(brightness * 100);
+  private getMaterial(textureId: number, brightness: number, isBackside: boolean = false): THREE.Material {
+    const key = textureId * 1000 + Math.floor(brightness * 100) + (isBackside ? 10000000 : 0);
     
     if (!this.materials.has(key)) {
       let material: THREE.Material;
+      const side = isBackside ? THREE.BackSide : THREE.FrontSide;
       
       if (this.textureManager && textureId >= 0 && textureId < this.textureManager.textureArray.length) {
         // Use texture from TextureManager
@@ -44,7 +51,7 @@ export class LevelRenderer {
           map: baseTexture.colorMap,
           normalMap: baseTexture.normalMap,
           roughnessMap: baseTexture.roughnessMap,
-          side: THREE.DoubleSide
+          side: side
         });
         // Apply brightness by modulating the material color
         (material as THREE.MeshStandardMaterial).color.setScalar(brightness);
@@ -53,7 +60,7 @@ export class LevelRenderer {
         const color = this.getColorFromTextureId(textureId);
         material = new THREE.MeshLambertMaterial({ 
           color: new THREE.Color(color).multiplyScalar(brightness),
-          side: THREE.DoubleSide
+          side: side
         });
       }
       
@@ -73,7 +80,7 @@ export class LevelRenderer {
     // Draw floor
     const { shape: floorShape, center: floorCenter } = this.createCenteredShape(sector.vertices);
     const floorGeometry = new THREE.ShapeGeometry(floorShape);
-    const floorMaterial = this.getMaterial(sector.floorTextureId, sector.brightness);
+    const floorMaterial = this.getMaterial(sector.floorTextureId, sector.brightness, true); // true for backside
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.rotation.x = Math.PI / 2;
     floor.position.set(floorCenter.x, sector.floorHeight, floorCenter.y);
@@ -83,7 +90,7 @@ export class LevelRenderer {
     if (sector.showCeiling) {
       const { shape: ceilingShape, center: ceilingCenter } = this.createCenteredShape(sector.vertices);
       const ceilingGeometry = new THREE.ShapeGeometry(ceilingShape);
-      const ceilingMaterial = this.getMaterial(sector.ceilingTextureId, sector.brightness);
+      const ceilingMaterial = this.getMaterial(sector.ceilingTextureId, sector.brightness, false); // false for frontside
       const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
       ceiling.rotation.x = Math.PI / 2;
       ceiling.position.set(ceilingCenter.x, sector.ceilingHeight, ceilingCenter.y);
@@ -216,7 +223,7 @@ export class LevelRenderer {
     const centerY = (bottomY + topY) / 2;
     
     // Calculate rotation angle (v1.y and v2.y map to Z coordinates)
-    const angle = -Math.atan2(v2.y - v1.y, v2.x - v1.x) + Math.PI;
+    const angle = -Math.atan2(v2.y - v1.y, v2.x - v1.x); // Flip to face inward
     
     // Apply transformations
     geometry.rotateY(angle);
